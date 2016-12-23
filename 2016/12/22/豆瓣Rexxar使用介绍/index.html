@@ -96,7 +96,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/12/22/豆瓣Rexxar使用介绍/index.html">
 <meta property="og:site_name" content="RuAn">
 <meta property="og:description" content="Rexxar 是一个针对移动端的混合开发框架。现在支持 Android 和 iOS 平台。rexxar-web 是 Rexxar 的 Web 端实现，提供配合 Rexxar Container 运行的基础工具。">
-<meta property="og:updated_time" content="2016-12-23T06:28:07.000Z">
+<meta property="og:updated_time" content="2016-12-23T09:03:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="豆瓣Rexxar使用介绍">
 <meta name="twitter:description" content="Rexxar 是一个针对移动端的混合开发框架。现在支持 Android 和 iOS 平台。rexxar-web 是 Rexxar 的 Web 端实现，提供配合 Rexxar Container 运行的基础工具。">
@@ -338,8 +338,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hybrid/" itemprop="url" rel="index">
-                    <span itemprop="name">hybrid</span>
+                  <a href="/categories/hybrid-原创/" itemprop="url" rel="index">
+                    <span itemprop="name">hybrid - 原创</span>
                   </a>
                 </span>
 
@@ -387,6 +387,16 @@
 <p>Rexxar 是一个针对移动端的混合开发框架。现在支持 Android 和 iOS 平台。rexxar-web 是 Rexxar 的 Web 端实现，提供配合 Rexxar Container 运行的基础工具。</p>
 </blockquote>
 <a id="more"></a>
+<h2 id="相关hybrid方案"><a href="#相关hybrid方案" class="headerlink" title="相关hybrid方案"></a>相关hybrid方案</h2><ul>
+<li>1.在JS 中做一次URL跳转，然后在OC中拦截跳转。（这里分为UIWebView 和 WKWebView两种，去年因为还要兼容iOS 6，所以没办法只能采用UIWebView来做。）</li>
+<li>2.利用WKWebView 的MessageHandler。</li>
+<li>3.利用系统库JavaScriptCore，来做相互调用。（iOS 7推出的）</li>
+<li>4.利用第三方库WebViewJavascriptBridge。JSBridge(Android: JsBridge，iOS：WebViewJavascriptBridge)。</li>
+<li>5.利用第三方cordova库，以前叫PhoneGap。（这是一个库平台的库）</li>
+<li>6.当下盛行的React Native。</li>
+<li>7.阿里推出的weex(使用了vue框架)，现已捐赠Apache。</li>
+</ul>
+<p>以下介绍的Rexxar使用的便是拦截的方案。</p>
 <h2 id="Rexxar-简介"><a href="#Rexxar-简介" class="headerlink" title="Rexxar 简介"></a>Rexxar 简介</h2><p>关于 Rexxar 的整体介绍，可以查看文档：<a href="http://lincode.github.io/Rexxar-OpenSource" target="_blank" rel="external">Rexxar 简介</a>。</p>
 <p>关于 Rexxar iOS，可以访问：<a href="https://github.com/douban/rexxar-ios" target="_blank" rel="external">https://github.com/douban/rexxar-ios</a>。</p>
 <p>关于 Rexxar Android，可以访问：<a href="https://github.com/douban/rexxar-android" target="_blank" rel="external">https://github.com/douban/rexxar-android</a>。</p>
@@ -527,7 +537,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -536,7 +546,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -545,7 +555,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -591,7 +601,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rexxar-简介"><span class="nav-number">1.</span> <span class="nav-text">Rexxar 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用感受"><span class="nav-number">2.</span> <span class="nav-text">使用感受</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS平台"><span class="nav-number">2.1.</span> <span class="nav-text">iOS平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android平台"><span class="nav-number">2.2.</span> <span class="nav-text">Android平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web端-rexxar-web"><span class="nav-number">2.3.</span> <span class="nav-text">Web端(rexxar-web)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关hybrid方案"><span class="nav-number">1.</span> <span class="nav-text">相关hybrid方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rexxar-简介"><span class="nav-number">2.</span> <span class="nav-text">Rexxar 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用感受"><span class="nav-number">3.</span> <span class="nav-text">使用感受</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS平台"><span class="nav-number">3.1.</span> <span class="nav-text">iOS平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android平台"><span class="nav-number">3.2.</span> <span class="nav-text">Android平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web端-rexxar-web"><span class="nav-number">3.3.</span> <span class="nav-text">Web端(rexxar-web)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

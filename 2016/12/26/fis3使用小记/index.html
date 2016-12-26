@@ -1,0 +1,736 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="fis3," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="FIS3 是面向前端的工程构建工具。解决前端工程中性能优化、资源加载（异步、同步、按需、预加载、依赖管理、合并、内嵌）、模块化开发、自动化工具、开发规范、代码部署等问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fis3使用小记">
+<meta property="og:url" content="http://yoursite.com/2016/12/26/fis3使用小记/index.html">
+<meta property="og:site_name" content="RuAn">
+<meta property="og:description" content="FIS3 是面向前端的工程构建工具。解决前端工程中性能优化、资源加载（异步、同步、按需、预加载、依赖管理、合并、内嵌）、模块化开发、自动化工具、开发规范、代码部署等问题。">
+<meta property="og:updated_time" content="2016-12-26T07:58:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="fis3使用小记">
+<meta name="twitter:description" content="FIS3 是面向前端的工程构建工具。解决前端工程中性能优化、资源加载（异步、同步、按需、预加载、依赖管理、合并、内嵌）、模块化开发、自动化工具、开发规范、代码部署等问题。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/26/fis3使用小记/"/>
+
+
+
+
+
+  <title> fis3使用小记 | RuAn </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f87e7764dc5b2d9e0fede98fb99d7f10";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">RuAn</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/26/fis3使用小记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="RuAn">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="RuAn">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="RuAn" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                fis3使用小记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-26T15:43:42+08:00">
+                2016-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/原创/" itemprop="url" rel="index">
+                    <span itemprop="name">原创</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/12/26/fis3使用小记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/26/fis3使用小记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>FIS3 是面向前端的工程构建工具。解决前端工程中性能优化、资源加载（异步、同步、按需、预加载、依赖管理、合并、内嵌）、模块化开发、自动化工具、开发规范、代码部署等问题。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="安装-（按照项目实际需要）"><a href="#安装-（按照项目实际需要）" class="headerlink" title="安装 （按照项目实际需要）"></a>安装 （按照项目实际需要）</h1><p>1.下载安装node<br>2.设置镜像 npm config set registry “<a href="http://registry.npm.taobao.org/" target="_blank" rel="external">http://registry.npm.taobao.org/</a>“<br>3.安装fis3  npm install -g fis3<br>4.安装模块化组件 npm install -g fis3-hook-module<br>5.安装模块化依赖自动加载插件 npm install -g fis3-postpackager-loader<br>6.安装替换插件 npm install -g fis3-deploy-replace<br>7.安装相对路径插件 npm install -g fis3-hook-relative</p>
+<h1 id="模块化配置"><a href="#模块化配置" class="headerlink" title="模块化配置"></a>模块化配置</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line">****************基础配置****************</div><div class="line">&#123;</div><div class="line">    mode: 模块化类型(AMD,CDM, CommandJs)</div><div class="line">    baseUrl: 基础路径</div><div class="line">    path: 配置别名或者路径</div><div class="line">&#125;</div><div class="line">*/</div><div class="line">fis.hook(<span class="string">'module'</span>, &#123;</div><div class="line">    <span class="attr">mode</span>: <span class="string">'commonJs'</span>,</div><div class="line">    <span class="attr">baseUrl</span>: <span class="string">"./modules/"</span>,</div><div class="line">    <span class="attr">paths</span>: &#123;</div><div class="line">        <span class="attr">api</span>: <span class="string">"common/api/"</span>,</div><div class="line">        <span class="attr">base</span>: <span class="string">"common/base/"</span>,</div><div class="line">        ...</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//fis-conf.js</span></div><div class="line"><span class="comment">// 启用插件</span></div><div class="line">fis.hook(<span class="string">'relative'</span>);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/****************模块化设置***************/</span></div><div class="line"></div><div class="line"><span class="comment">/*设置模块目录, 打包时自动包裹define*/</span></div><div class="line">fis.match(<span class="string">'/modules/**.js'</span>, &#123;</div><div class="line">    <span class="attr">isMod</span>: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/*设置发布时不产出的文件*/</span></div><div class="line">fis.match(<span class="string">'**.&#123;tmpl,txt,md&#125;'</span>, &#123;    </div><div class="line">    <span class="attr">release</span>: <span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">// fis.match('test.html', &#123;</span></div><div class="line"><span class="comment">//     release: false</span></div><div class="line"><span class="comment">// &#125;);</span></div><div class="line"><span class="comment">// fis.media("debug").match('test.html', &#123;</span></div><div class="line"><span class="comment">//     release: true</span></div><div class="line"><span class="comment">// &#125;);</span></div><div class="line"></div><div class="line"><span class="comment">/*设置打包时自动处理模块化依赖关系*/</span></div><div class="line">fis.match(<span class="string">'::package'</span>, &#123;</div><div class="line">    <span class="comment">// npm install [-g] fis3-postpackager-loader</span></div><div class="line">    <span class="comment">// 分析 __RESOURCE_MAP__ 结构，来解决资源加载问题</span></div><div class="line">    postpackager: fis.plugin(<span class="string">'loader'</span>, &#123;</div><div class="line">        <span class="attr">resourceType</span>: <span class="string">'commonJs'</span>,</div><div class="line">        <span class="attr">useInlineMap</span>: <span class="literal">true</span> <span class="comment">// 资源映射表内嵌</span></div><div class="line">    &#125;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/*设置零散资源自动打包*/</span></div><div class="line">fis.match(<span class="string">'::packager'</span>, &#123;</div><div class="line">  <span class="attr">postpackager</span>: fis.plugin(<span class="string">'loader'</span>, &#123;</div><div class="line">    <span class="attr">allInOne</span>: <span class="literal">true</span></div><div class="line">  &#125;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/****************打包设置***************/</span></div><div class="line"></div><div class="line"><span class="comment">/*指定文件添加md5戳*/</span></div><div class="line">fis.match(<span class="string">'*.&#123;js,css,png,jpg,gif&#125;'</span>, &#123;</div><div class="line">  <span class="attr">useHash</span>: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/*指定文件添加md5戳*/</span></div><div class="line"><span class="comment">// fis.match('/views/images/icon/*.*', &#123;</span></div><div class="line"><span class="comment">//   useHash: false</span></div><div class="line"><span class="comment">// &#125;);</span></div><div class="line"></div><div class="line"><span class="comment">/*设置js压缩插件*/</span></div><div class="line">fis.match(<span class="string">'*.js'</span>, &#123;</div><div class="line">  <span class="comment">// fis-optimizer-uglify-js 插件进行压缩，已内置</span></div><div class="line">  optimizer: fis.plugin(<span class="string">'uglify-js'</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">fis.media(<span class="string">"debug"</span>).match(<span class="string">'*.js'</span>, &#123;</div><div class="line">  <span class="comment">// fis-optimizer-uglify-js 插件进行压缩，已内置</span></div><div class="line">  optimizer: <span class="literal">null</span></div><div class="line">&#125;); </div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/*设置css压缩插件*/</span></div><div class="line">fis.match(<span class="string">'*.css'</span>, &#123;</div><div class="line">  <span class="comment">// fis-optimizer-clean-css 插件进行压缩，已内置</span></div><div class="line">  optimizer: fis.plugin(<span class="string">'clean-css'</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/*设置png图片压缩插件*/</span></div><div class="line">fis.match(<span class="string">'*.png'</span>, &#123;</div><div class="line">  <span class="comment">// fis-optimizer-png-compressor 插件进行压缩，已内置</span></div><div class="line">  optimizer: fis.plugin(<span class="string">'png-compressor'</span>)</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/****************合并设置***************/</span></div><div class="line"><span class="comment">//用 $1, $2, $3 来代表响应的捕获分组。其中 $0 代表的是 match 到的整个字符串。</span></div><div class="line"><span class="comment">// (**.js) 让 a 目录下面的 js 发布到 b 目录下面，保留原始文件名。</span></div><div class="line"></div><div class="line"><span class="comment">/*第三方组件合并处理*/</span></div><div class="line"><span class="comment">// fis.match('modules/libs/**.js', &#123;</span></div><div class="line"><span class="comment">//   packTo: 'modules/libs/libs.js'</span></div><div class="line"><span class="comment">// &#125;);</span></div><div class="line"></div><div class="line"><span class="comment">/*系统资源合并处理*/</span></div><div class="line">fis.match(<span class="string">'/libs/**.js'</span>, &#123;</div><div class="line">  <span class="attr">packTo</span>: <span class="string">'/libs/mod.js'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/*公共组件合并处理*/</span></div><div class="line">fis.match(<span class="string">'modules/common/**.js'</span>, &#123;</div><div class="line">    <span class="attr">packTo</span>: <span class="string">'modules/common/common.js'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/*样式合并处理*/</span></div><div class="line">fis.match(<span class="string">'views/css/**.css'</span>, &#123;</div><div class="line">    <span class="attr">packTo</span>: <span class="string">'views/css/style.pack.css'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line">fis.match(<span class="string">'modules/common/**.css'</span>, &#123;</div><div class="line">    <span class="attr">packTo</span>: <span class="string">'views/css/common.pack.css'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/*图片输出处理*/</span></div><div class="line">fis.match(<span class="string">'views/**.&#123;png,jpg,gif&#125;'</span>, &#123;</div><div class="line">    <span class="attr">release</span>: <span class="string">'$0'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line">fis.match(<span class="string">'modules/**/(*.&#123;png,jpg,gif&#125;)'</span>, &#123;</div><div class="line">    <span class="attr">release</span>: <span class="string">'/views/images/$1'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/*html输出到根目录下*/</span></div><div class="line">fis.match(<span class="string">'views/(**.html)'</span>, &#123;</div><div class="line">    <span class="attr">release</span>: <span class="string">'$1'</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/*首页输出到根目录下*/</span></div><div class="line"><span class="comment">// fis.match('views/pages/index.html', &#123;</span></div><div class="line"><span class="comment">//     release: 'index.html'</span></div><div class="line"><span class="comment">// &#125;);</span></div><div class="line"></div><div class="line"><span class="comment">// 让所有文件，都使用相对路径。</span></div><div class="line">fis.match(<span class="string">'**'</span>, &#123;</div><div class="line">  <span class="attr">relative</span>: <span class="literal">true</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h1 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h1><p>执行以下命令预览项目<br>打包<br><code>fis3 release</code><br>打开服务器<br><code>fis3 server open</code><br>启动服务器(不需要预览可不执行)<br><code>fis3 server start</code></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>这里fis3希望解决的是模块化开发以及资源打包压缩自动化的问题。比起webpack、gulp、grunt等配置使用起来要再简单一点，一般简单前端项目构建可参考使用。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fis3/" rel="tag"># fis3</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/23/前端优质期刊/" rel="next" title="前端优质期刊">
+                <i class="fa fa-chevron-left"></i> 前端优质期刊
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/26/fis3使用小记/"
+           data-title="fis3使用小记" data-url="http://yoursite.com/2016/12/26/fis3使用小记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="RuAn" />
+          <p class="site-author-name" itemprop="name">RuAn</p>
+          <p class="site-description motion-element" itemprop="description">ruanhaojian's blog</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ruanhaojian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-（按照项目实际需要）"><span class="nav-number">1.</span> <span class="nav-text">安装 （按照项目实际需要）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模块化配置"><span class="nav-number">2.</span> <span class="nav-text">模块化配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构建"><span class="nav-number">3.</span> <span class="nav-text">构建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RuAn</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ruanhaojian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -96,10 +96,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/01/05/MobX文档/index.html">
 <meta property="og:site_name" content="RuAn">
 <meta property="og:description" content="mobxjs intro  英文文档。">
-<meta property="og:updated_time" content="2017-01-05T10:00:05.000Z">
+<meta property="og:image" content="https://mobxjs.github.io/mobx/getting-started-assets/overview.png">
+<meta property="og:updated_time" content="2017-01-06T06:31:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MobX文档">
 <meta name="twitter:description" content="mobxjs intro  英文文档。">
+<meta name="twitter:image" content="https://mobxjs.github.io/mobx/getting-started-assets/overview.png">
 
 
 
@@ -365,12 +367,68 @@
 <p><a href="http://mobxjs.github.io/mobx/intro/overview.html" target="_blank" rel="external">mobxjs intro</a>  英文文档。</p>
 </blockquote>
 <a id="more"></a>
-<h1 id="1-MobX介绍"><a href="#1-MobX介绍" class="headerlink" title="1.MobX介绍"></a>1.MobX介绍</h1><h1 id="1-1-MobX要点"><a href="#1-1-MobX要点" class="headerlink" title="1.1 MobX要点"></a>1.1 MobX要点</h1><p>到目前为止，这一切听起来有点花哨，但使用MobX实现响应时应用只需要以下三步：</p>
+<h1 id="1-MobX介绍"><a href="#1-MobX介绍" class="headerlink" title="1.MobX介绍"></a>1.MobX介绍</h1><h2 id="1-1-MobX要点"><a href="#1-1-MobX要点" class="headerlink" title="1.1 MobX要点"></a>1.1 MobX要点</h2><p>到目前为止，这一切听起来有点花哨，但使用MobX实现响应时应用只需要以下三步：</p>
 <p><strong>1.定义你的观察者状态</strong></p>
 <p>在任何您喜欢的数据结构中存储状态：objects、arrary、classes。循环数据结构或者关联数据，都没关系。只要确保你想要实现响应观察的状态改变的变量使用MobX来实现观察者。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;observable&#125; <span class="keyword">from</span> <span class="string">'mobx'</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> appState = observable(&#123;</div><div class="line">    <span class="attr">timer</span>: <span class="number">0</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p><strong>2.创建一个视图来响应你的状态改变</strong></p>
-<p>我们没有让<code>appState</code>观察任何东西；你现在可以创建一个任何在<code>appState</code>里面的数据改变而自动更新的视图。</p>
+<p>我们没有让<code>appState</code>观察任何东西；你现在可以创建一个任何在<code>appState</code>里面的数据改变而自动更新的视图。<br>通常来讲，任何方法都可以变成观察了数据的响应式视图，并且MobX可以应用在任何使用ES5的环境下。但是，这里有一个来自使用ES6的react组件的视图例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;observer&#125; <span class="keyword">from</span> <span class="string">'mobx-react'</span>;</div><div class="line"></div><div class="line">@observer</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimerView</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">return</span> (&lt;button onClick=&#123;this.onReset.bind(this)&#125;&gt;</div><div class="line">                Seconds passed: &#123;this.props.appState.timer&#125;</div><div class="line">            &lt;/button&gt;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    onReset () &#123;</div><div class="line">        <span class="keyword">this</span>.props.appState.resetTimer();</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">React.render(&lt;TimerView appState=&#123;appState&#125; /&gt;, document.body);</div></pre></td></tr></table></figure>
+<p>（关于方法<code>resetTimer</code>的实现，我们下一步再说明）</p>
+<p><strong>3.修改状态</strong></p>
+<p>第三步就是修改状态。不同于其他的框架，MobX不会约束你怎么做。这里的最佳实践，但是要记住的是：MobX帮助你做一个简单的事情。<br>接下来的代码会在每秒修改你的数据，并且UI会在需要的时候自动修改。没有明确的关系中定义的控制器的功能，改变状态或视图，应该更新。对于MobX检测所有关系只需装饰你的状态和视图使用<code>observable</code>就够了。这里有两个改变状态的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">appState.resetTimer = action(<span class="function"><span class="keyword">function</span> <span class="title">reset</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    appState.timer = <span class="number">0</span>;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">setInterval(action(<span class="function"><span class="keyword">function</span> <span class="title">tick</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    appState.timer += <span class="number">1</span>;</div><div class="line">&#125;), <span class="number">1000</span>);</div></pre></td></tr></table></figure>
+<p><code>action</code>的使用仅仅在我们使用严格模式（默认是关闭）的MobX，但是可以帮助你更好的组织应用的结构和表示函数修改状态的意图。</p>
+<h2 id="1-2-概念与原则"><a href="#1-2-概念与原则" class="headerlink" title="1.2 概念与原则"></a>1.2 概念与原则</h2><p><strong>概念</strong></p>
+<hr>
+<p>mobx区分下列应用程序中的概念。你看到他们在以前的主旨，但让我们挖掘多一点细节。</p>
+<p>1、State(状态)</p>
+<p>State是驱动你应用的数据。通常有特定区域的状态如一个todo的items和一个当前选中的元素的视图状态。记住，状态就像持有值的电子表格单元格。</p>
+<p>2、Derivations(推导)</p>
+<p>任何可以从状态中得到的，没有任何进一步的相互作用的我们把它叫做Derivations(推导)。Derivations 存在很多情况：</p>
+<ul>
+<li>用户界面（UI）</li>
+<li>Drived data(导出的数据)，如todos。</li>
+<li>Backend integrations(后端集成)，就像将更改发送到服务器。 </li>
+</ul>
+<p>MobX区分两种Derivations:</p>
+<ul>
+<li>Computed values(计算值)。这个数据会被一个方法通过当前观察的状态进行计算输出。</li>
+<li>Reactions(响应)。响应会在状态修改的发生作用。这些都是必要的反应和反应编程之间的桥梁。或者更简单的说，他们最终需要实现I/O(输入/输出).</li>
+</ul>
+<p>用户一开始使用MobX就企图经常使用reactions。这里有个黄金法则是：如果你想创建一个基于当前状态的值，那么请使用<code>computed</code>。<br>回到试算表的类比，公式是计算值的推导.。但你作为一个用户能够在屏幕上看到一个reaction(反应)需要重画的GUI部分。</p>
+<p>3、Actions(动作)</p>
+<p>一个Action是改变State的地方。用户事件，后端数据推送，预定的事件等等。一个动作就像在电子表格单元格中输入新值的一个用户一样。<br>Actions可以明确的定义在你的MobX项目来帮助你更清晰地组织代码结构。如果你使用的是严格模式，MobX将会强制要求你只能在actions里面修改你的State。</p>
+<h3 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h3><p>mobx支持单向数据流，动作状态发生变化，从而更新所有受影响的看法。</p>
+<p>Action -&gt; State -&gt; Views</p>
+<p>所有Derivations都是根据状态修改来自动更新(automatically)和原子(atomically)的。因此，是不可能观察中间值的。<br>默认情况下，所有Derivations同步(synchronously)更新。这意味着，例如，Actions可以安全地检查一个计算值后，直接改变状态。<br>Computed values的是懒更新(updated lazily)的。任何不在激活使用的Computed values不会被更新，除非发生了它需要的副作用(I/O)操作。如果视图不再使用，将自动垃圾回收。<br>所有Computed values都应是纯的（pure），他们不应该改版状态State。</p>
+<h3 id="Illustration-例证"><a href="#Illustration-例证" class="headerlink" title="Illustration(例证)"></a>Illustration(例证)</h3><p>下面列出了上述概念和原则：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;observable, autorun&#125; <span class="keyword">from</span> <span class="string">'mobx'</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> todoStore = observable(&#123;</div><div class="line">    <span class="comment">/* some observable state */</span></div><div class="line">    todos: [],</div><div class="line"></div><div class="line">    <span class="comment">/* a derived value */</span></div><div class="line">    get completedCount() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.todos.filter(<span class="function"><span class="params">todo</span> =&gt;</span> todo.completed).length;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/* a function that observes the state */</span></div><div class="line">autorun(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"Completed %d of %d items"</span>,</div><div class="line">        todoStore.completedCount,</div><div class="line">        todoStore.todos.length</div><div class="line">    );</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">/* ..and some actions that modify the state */</span></div><div class="line">todoStore.todos[<span class="number">0</span>] = &#123;</div><div class="line">    <span class="attr">title</span>: <span class="string">"Take a walk"</span>,</div><div class="line">    <span class="attr">completed</span>: <span class="literal">false</span></div><div class="line">&#125;;</div><div class="line"><span class="comment">// -&gt; synchronously prints 'Completed 0 of 1 items'</span></div><div class="line"></div><div class="line">todoStore.todos[<span class="number">0</span>].completed = <span class="literal">true</span>;</div><div class="line"><span class="comment">// -&gt; synchronously prints 'Completed 1 of 1 items'</span></div></pre></td></tr></table></figure>
+<p><img src="https://mobxjs.github.io/mobx/getting-started-assets/overview.png" alt="MobX"></p>
+<p>In the <a href="https://mobxjs.github.io/mobx/getting-started.html" target="_blank" rel="external">10 minute introduction to MobX and React</a> you can dive deeper into this example and build a user interface using React around it.</p>
+<h1 id="2-Api-概述"><a href="#2-Api-概述" class="headerlink" title="2. Api 概述"></a>2. Api 概述</h1><p><a href="http://mobxjs.github.io/mobx/refguide/api.html" target="_blank" rel="external">MobX Api Reference</a></p>
+<h2 id="2-1-observable"><a href="#2-1-observable" class="headerlink" title="2.1 observable"></a>2.1 observable</h2><p>使用：</p>
+<ul>
+<li><code>observable(value)</code></li>
+<li><code>@observable classProperty = value</code></li>
+</ul>
+<p>Observabl的值可以是JS primitives, references, plain objects, class instances, arrays and maps。应用下列转换规则，但可以使用修饰符进行微调。看下面。</p>
+<ol>
+<li>如果value被包裹在修改器<code>asMap</code>里面：将会返回一个新的<a href="http://mobxjs.github.io/mobx/refguide/map.html" target="_blank" rel="external">Observable Map</a>。Observable maps是非常有用的，如果你不想作出反应，只是修改一个特定的条目，但也增加或删除条目。</li>
+<li>如果value是一个数组(array)，将会返回一个新的<a href="http://mobxjs.github.io/mobx/refguide/array.html" target="_blank" rel="external">Observable Array</a>。</li>
+<li>如果value是一个没有原型(prototype)的对象，它里面所有属性都将会变成observable。见<a href="http://mobxjs.github.io/mobx/refguide/object.html" target="_blank" rel="external">Observable Object</a>。</li>
+<li>如果value是一个有原型(prototype)的对象，一个JavaScript原语或者function，将会返回一个<a href="http://mobxjs.github.io/mobx/refguide/boxed.html" target="_blank" rel="external">Boxed Observable</a>，MobX不会让一个有prototype的对象自动observable，因为这是它的构造函数的责任。在构造函数使用<code>extendObservable</code>或者在它的类里面使用<code>@obervable</code>定义。</li>
+</ol>
+<p>这些规则看起来似乎很复杂，但你会注意到，在实践中他们非常直观的工作。 一些注意事项：</p>
+<ul>
+<li>要创建动态键控对象，请使用<code>asMap</code>修饰符！ 只有对象上的最初存在的属性将被使得可观察，虽然可以使用<code>extendObservable</code>添加新的属性。</li>
+<li>要使用@observable装饰器，请确保在转换器（babel或typescript）中启用装饰器。</li>
+<li>默认情况下，使数据结构可观察是感染性的; 这意味着observable可以自动应用于数据结构包含的任何值，或者将来包含在数据结构中。 此行为可以通过使用修饰符更改。</li>
+</ul>
+<p>一些例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> map = observable(asMap(&#123; <span class="attr">key</span>: <span class="string">"value"</span>&#125;));</div><div class="line">map.set(<span class="string">"key"</span>, <span class="string">"new value"</span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> list = observable([<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>]);</div><div class="line">list[<span class="number">2</span>] = <span class="number">3</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> person = observable(&#123;</div><div class="line">    <span class="attr">firstName</span>: <span class="string">"Clive Staples"</span>,</div><div class="line">    <span class="attr">lastName</span>: <span class="string">"Lewis"</span></div><div class="line">&#125;);</div><div class="line">person.firstName = <span class="string">"C.S."</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> temperature = observable(<span class="number">20</span>);</div><div class="line">temperature.set(<span class="number">25</span>);</div></pre></td></tr></table></figure>
+<h2 id="2-2-observable"><a href="#2-2-observable" class="headerlink" title="2.2 @observable"></a>2.2 @observable</h2><p>可以在ES7或TypeScript类属性上使用的装饰器，以使它们可见。 @observable可以在实例字段和属性getters上使用。 这提供了对对象的那些部分变得可观察的细粒度控制。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;observable&#125; <span class="keyword">from</span> <span class="string">"mobx"</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderLine</span> </span>&#123;</div><div class="line">    @observable price:number = <span class="number">0</span>;</div><div class="line">    @observable amount:number = <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="keyword">constructor</span>(price) &#123;</div><div class="line">        <span class="keyword">this</span>.price = price;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @computed get total() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.price * <span class="keyword">this</span>.amount;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -549,7 +607,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MobX介绍"><span class="nav-number">1.</span> <span class="nav-text">1.MobX介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-MobX要点"><span class="nav-number">2.</span> <span class="nav-text">1.1 MobX要点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MobX介绍"><span class="nav-number">1.</span> <span class="nav-text">1.MobX介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-MobX要点"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 MobX要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-概念与原则"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 概念与原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原则"><span class="nav-number">1.2.1.</span> <span class="nav-text">原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Illustration-例证"><span class="nav-number">1.2.2.</span> <span class="nav-text">Illustration(例证)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Api-概述"><span class="nav-number">2.</span> <span class="nav-text">2. Api 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-observable"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 observable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-observable"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 @observable</span></a></li></ol></li></ol></div>
             
 
           </div>

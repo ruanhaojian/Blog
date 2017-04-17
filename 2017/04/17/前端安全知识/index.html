@@ -1,0 +1,730 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="web," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前端安全问题收集，对安全问题要有深刻认识。">
+<meta name="keywords" content="web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端安全知识">
+<meta property="og:url" content="http://yoursite.com/2017/04/17/前端安全知识/index.html">
+<meta property="og:site_name" content="RuAn">
+<meta property="og:description" content="前端安全问题收集，对安全问题要有深刻认识。">
+<meta property="og:updated_time" content="2017-04-17T07:54:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端安全知识">
+<meta name="twitter:description" content="前端安全问题收集，对安全问题要有深刻认识。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/17/前端安全知识/"/>
+
+
+
+
+
+  <title> 前端安全知识 | RuAn </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f87e7764dc5b2d9e0fede98fb99d7f10";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">RuAn</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/前端安全知识/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="RuAn">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="RuAn">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="RuAn" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                前端安全知识
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T14:50:10+08:00">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/17/前端安全知识/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/前端安全知识/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前端安全问题收集，对安全问题要有深刻认识。</p>
+<a id="more"></a>
+<h1 id="XSS跨站脚本攻击-Cross-Site-Scripting"><a href="#XSS跨站脚本攻击-Cross-Site-Scripting" class="headerlink" title="XSS跨站脚本攻击(Cross Site Scripting)"></a>XSS跨站脚本攻击(Cross Site Scripting)</h1><p>XSS是一种经常出现在web应用中的计算机安全漏洞，它允许恶意web用户将代码植入到提供给其它用户使用的页面中。比如这些代码包括HTML代码和客户端脚本。攻击者利用XSS漏洞旁路掉访问控制——例如同源策略(same origin policy)。这种类型的漏洞由于被黑客用来编写危害性更大的网络钓鱼(Phishing)攻击而变得广为人知。对于跨站脚本攻击，黑客界共识是：跨站脚本攻击是新型的“缓冲区溢出攻击“，而JavaScript是新型的“ShellCode”。</p>
+<h2 id="XSS攻击的危害包括"><a href="#XSS攻击的危害包括" class="headerlink" title="XSS攻击的危害包括"></a>XSS攻击的危害包括</h2><p>1、盗取各类用户帐号，如机器登录帐号、用户网银帐号、各类管理员帐号<br>2、控制企业数据，包括读取、篡改、添加、删除企业敏感数据的能力<br>3、盗窃企业重要的具有商业价值的资料<br>4、非法转账<br>5、强制发送电子邮件<br>6、网站挂马<br>7、控制受害者机器向其它网站发起攻击</p>
+<h2 id="XSS漏洞分类"><a href="#XSS漏洞分类" class="headerlink" title="XSS漏洞分类"></a>XSS漏洞分类</h2><p><strong>类型A</strong>，本地利用漏洞，这种漏洞存在于页面中客户端脚本自身。其攻击过程如下所示：<br>Alice给Bob发送一个恶意构造了Web的URL。<br>Bob点击并查看了这个URL。<br>恶意页面中的JavaScript打开一个具有漏洞的HTML页面并将其安装在Bob电脑上。<br>具有漏洞的HTML页面包含了在Bob电脑本地域执行的JavaScript。<br>Alice的恶意脚本可以在Bob的电脑上执行Bob所持有的权限下的命令。</p>
+<p><strong>类型B</strong>，反射式漏洞，这种漏洞和类型A有些类似，不同的是Web客户端使用Server端脚本生成页面为用户提供数据时，如果未经验证的用户数据被包含在页面中而未经HTML实体编码，客户端代码便能够注入到动态页面中。其攻击过程如下：<br>Alice经常浏览某个网站，此网站为Bob所拥有。Bob的站点运行Alice使用用户名/密码进行登录，并存储敏感信息(比如银行帐户信息)。<br>Charly发现Bob的站点包含反射性的XSS漏洞。<br>Charly编写一个利用漏洞的URL，并将其冒充为来自Bob的邮件发送给Alice。<br>Alice在登录到Bob的站点后，浏览Charly提供的URL。<br>嵌入到URL中的恶意脚本在Alice的浏览器中执行，就像它直接来自Bob的服务器一样。此脚本盗窃敏感信息(授权、信用卡、帐号信息等)然后在Alice完全不知情的情况下将这些信息发送到Charly的Web站点。</p>
+<p><strong>类型C</strong>，存储式漏洞，该类型是应用最为广泛而且有可能影响到Web服务器自身安全的漏洞，骇客将攻击脚本上传到Web服务器上，使得所有访问该页面的用户都面临信息泄漏的可能，其中也包括了Web服务器的管理员。其攻击过程如下：<br>Bob拥有一个Web站点，该站点允许用户发布信息/浏览已发布的信息。<br>Charly注意到Bob的站点具有类型C的XSS漏洞。<br>Charly发布一个热点信息，吸引其它用户纷纷阅读。<br>Bob或者是任何的其他人如Alice浏览该信息，其会话cookies或者其它信息将被Charly盗走。</p>
+<p>类型A直接威胁用户个体，而类型B和类型C所威胁的对象都是企业级Web应用。</p>
+<h2 id="防御技术"><a href="#防御技术" class="headerlink" title="防御技术"></a>防御技术</h2><p>1、从url中获取的信息，渲染在页面，由后端获取，在前端转义后再行输出。<br>2、对于XSS的预防自然也是对提交数据的过滤，另外还有一点——谨慎返回用户提交的内容！</p>
+<h1 id="CSRF（cross-site-request-forgery）跨站请求伪造"><a href="#CSRF（cross-site-request-forgery）跨站请求伪造" class="headerlink" title="CSRF（cross-site request forgery）跨站请求伪造"></a>CSRF（cross-site request forgery）跨站请求伪造</h1><p>CSRF（Cross-site request forgery）跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本（XSS），但它与XSS非常不同，XSS利用站点内的信任用户，而CSRF则通过伪装来自受信任用户的请求来利用受信任的网站。与XSS攻击相比，CSRF攻击往往不大流行（因此对其进行防范的资源也相当稀少）和难以防范，所以被认为比XSS更具危险性。</p>
+<h2 id="示例特性"><a href="#示例特性" class="headerlink" title="示例特性"></a>示例特性</h2><p>攻击通过在授权用户访问的页面中包含链接或者脚本的方式工作。例如：一个网站用户Bob可能正在浏览聊天论坛，而同时另一个用户Alice也在此论坛中，并且后者刚刚发布了一个具有Bob银行链接的图片消息。设想一下，Alice编写了一个在Bob的银行站点上进行取款的form提交的链接，并将此链接作为图片src。如果Bob的银行在cookie中保存他的授权信息，并且此cookie没有过期，那么当Bob的浏览器尝试装载图片时将提交这个取款form和他的cookie，这样在没经Bob同意的情况下便授权了这次事务。<br>CSRF是一种依赖web浏览器的、被混淆过的代理人攻击（deputy attack）。在上面银行示例中的代理人是Bob的web浏览器，它被混淆后误将Bob的授权直接交给了Alice使用。<br>下面是CSRF的常见特性：<br>依靠用户标识危害网站<br>利用网站对用户标识的信任<br>欺骗用户的浏览器发送HTTP请求给目标站点<br>另外可以通过IMG标签会触发一个GET请求，可以利用它来实现CSRF攻击。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://a.com/transaction"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">id</span>=<span class="string">"hack"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"to"</span> <span class="attr">value</span>=<span class="string">"hacker_account"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"value"</span> <span class="attr">value</span>=<span class="string">"100000"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="built_in">document</span>.getElementById(<span class="string">"hack"</span>).submit();</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="相关威胁"><a href="#相关威胁" class="headerlink" title="相关威胁"></a>相关威胁</h2><p>贴图只是GET的方式，很多时候我们需要伪造POST的请求。一个办法是利用跨站，当然目标站点可能不存在跨站，这个时候我们可以从第三方网站发动攻击。<br>比如我要攻击一个存在问题的blog，那就先去目标blog留言，留下一个网址，诱其主人点击过来（这个就要看你的忽悠本事咯:p），然后构造个HTML表单提交些数据过去。<br>多窗口浏览器就帮了一点忙。<br>多窗口浏览器（firefox、遨游、MyIE……）便捷的同时也带来了一些问题，因为多窗口浏览器新开的窗口是具有当前所有会话的。即我用IE登陆了我的Blog，然后我想看新闻了，又运行一个IE进程，这个时候两个IE窗口的会话是彼此独立的，从看新闻的IE发送请求到Blog不会有我登录的cookie；但是多窗口浏览器永远都只有一个进程，各窗口的会话是通用的，即看新闻的窗口发请求到Blog是会带上我在blog登录的cookie。<br>想一想，当我们用鼠标在Blog/BBS/WebMail点击别人留下的链接的时候，说不定一场精心准备的CSRF攻击正等着我们。</p>
+<h2 id="防范措施"><a href="#防范措施" class="headerlink" title="防范措施"></a>防范措施</h2><p>对于web站点，将持久化的授权方法（例如cookie或者HTTP授权）切换为瞬时的授权方法（在每个form中提供隐藏field），这将帮助网站防止这些攻击。一种类似的方式是在form中包含秘密信息、用户指定的代号作为cookie之外的验证。<br>另一个可选的方法是“双提交”cookie。此方法只工作于Ajax请求，但它能够作为无需改变大量form的全局修正方法。如果某个授权的cookie在form post之前正被JavaScript代码读取，那么限制跨域规则将被应用。如果服务器需要在Post请求体或者URL中包含授权cookie的请求，那么这个请求必须来自于受信任的域，因为其它域是不能从信任域读取cookie的。<br>与通常的信任想法相反，使用Post代替Get方法并不能提供卓有成效的保护。因为JavaScript能使用伪造的POST请求。尽管如此，那些导致对安全产生“副作用”的请求应该总使用Post方式发送。Post方式不会在web服务器和代理服务器日志中留下数据尾巴，然而Get方式却会留下数据尾巴。<br>尽管CSRF是web应用的基本问题，而不是用户的问题，但用户能够在缺乏安全设计的网站上保护他们的帐户：通过在浏览其它站点前登出站点或者在浏览器会话结束后清理浏览器的cookie。<br>给所有请求加上 token 检查。token 一般是随机字符串，只需确保其不可预测性即可。token 可以在 QueryString、POST body 甚至是 Custom Header 里，但千万不能在 Cookies 里。</p>
+<h1 id="会话劫持"><a href="#会话劫持" class="headerlink" title="会话劫持"></a>会话劫持</h1><p>百度百科有个很有意思的引喻——“在现实生活中，比如你去市场买菜，在交完钱后你要求先去干一些别的事情，稍候再来拿菜；如果这个时候某个陌生人要求把菜拿走，卖菜的人会把菜给陌生人吗？”</p>
+<p>这个比喻很有意思，我们常规访问一个http网站时是与其服务器建立了一次HTTP会话。假设你宿舍楼的“朋友”都跟你处于同一个子网上，其中有人想伪装成你来劫持你的HTTP会话，那么服务器会把菜，哦不，是信息返回给那个人吗？</p>
+<p>答案是肯定的，因为HTTP会话并不安全。它在经过TCP/IP协议封装传输数据时，在传输的数据的每一个字节中插入一个32位的序列号码，这个序列号用来保持跟踪数据和提供可靠性（序列号是依循数据顺序逐步递增的）。第三方攻击者可以通过嗅探的方式来获取用户与服务器通讯中的报文信息，如果他能猜测到数据中的序列号，那便能把合法的用户断开，伪装成合法用户让自己控制后续的通话。</p>
+<p>对于会话劫持的预防，可以走SSH协议、增强网络安全系统健壮性，也可以使用无序的UUID来替代通讯中的序列号码（而非逐步递增）。</p>
+<h1 id="控制台注入代码"><a href="#控制台注入代码" class="headerlink" title="控制台注入代码"></a>控制台注入代码</h1><p>黑客会诱骗用户去往控制台里面粘贴东西（欺负小白用户不懂代码），比如可以在朋友圈贴个什么文章，说:”只要访问天猫，按下F12并且粘贴以下内容，则可以获得xx元礼品”之类的，那么有的用户真的会去操作，并且自己隐私被暴露了也不知道。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/17/计算机网络基础知识总结/" rel="next" title="计算机网络基础知识总结">
+                <i class="fa fa-chevron-left"></i> 计算机网络基础知识总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/14/react学习笔记/" rel="prev" title="react学习笔记">
+                react学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/04/17/前端安全知识/"
+           data-title="前端安全知识" data-url="http://yoursite.com/2017/04/17/前端安全知识/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="RuAn" />
+          <p class="site-author-name" itemprop="name">RuAn</p>
+          <p class="site-description motion-element" itemprop="description">我们因为与众不同，而不被周围的人理解。</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ruanhaojian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XSS跨站脚本攻击-Cross-Site-Scripting"><span class="nav-number">1.</span> <span class="nav-text">XSS跨站脚本攻击(Cross Site Scripting)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS攻击的危害包括"><span class="nav-number">1.1.</span> <span class="nav-text">XSS攻击的危害包括</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS漏洞分类"><span class="nav-number">1.2.</span> <span class="nav-text">XSS漏洞分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防御技术"><span class="nav-number">1.3.</span> <span class="nav-text">防御技术</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSRF（cross-site-request-forgery）跨站请求伪造"><span class="nav-number">2.</span> <span class="nav-text">CSRF（cross-site request forgery）跨站请求伪造</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例特性"><span class="nav-number">2.1.</span> <span class="nav-text">示例特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关威胁"><span class="nav-number">2.2.</span> <span class="nav-text">相关威胁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防范措施"><span class="nav-number">2.3.</span> <span class="nav-text">防范措施</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#会话劫持"><span class="nav-number">3.</span> <span class="nav-text">会话劫持</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#控制台注入代码"><span class="nav-number">4.</span> <span class="nav-text">控制台注入代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RuAn</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ruanhaojian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

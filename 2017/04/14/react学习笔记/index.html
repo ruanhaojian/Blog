@@ -97,7 +97,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/14/react学习笔记/index.html">
 <meta property="og:site_name" content="RuAn">
 <meta property="og:description" content="记录一些好的实践、性能优化。">
-<meta property="og:updated_time" content="2017-04-14T10:11:15.000Z">
+<meta property="og:updated_time" content="2017-04-18T10:09:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react学习笔记">
 <meta name="twitter:description" content="记录一些好的实践、性能优化。">
@@ -428,7 +428,7 @@
 <li>reducer和selector请放到一个文件，请记住reducer之间可以compose.</li>
 <li>请善用higher order component. 如果某一项功能是多个组建通用，higher order component往往要比套一层container更灵活。</li>
 <li>请慎重选择组建树的哪一层使用connected component(连接到store)，通常是比较高层的组建用来和store沟通，最低层组建使用这防止太长的prop chain.</li>
-<li>项目大了之后请用<strong>redux-saga</strong>或者<strong>redux-observables</strong></li>
+<li>项目大了之后请用<strong><a href="http://leonshi.com/redux-saga-in-chinese/index.html" target="_blank" rel="external">redux-saga</a></strong>或者<strong><a href="https://github.com/redux-observable/redux-observable" target="_blank" rel="external">redux-observables</a></strong></li>
 <li>请慎用自定义的redux-middleware,错误的配置可能会影响到其他middleware.</li>
 </ol>
 <h1 id="React-Diff"><a href="#React-Diff" class="headerlink" title="React Diff"></a>React Diff</h1><p><a href="http://www.infoq.com/cn/articles/react-dom-diff/" target="_blank" rel="external">深入浅出React（四）：虚拟DOM Diff算法解析</a></p>
@@ -437,6 +437,7 @@
 <li>逐层节点比较，先消除，在重新创建</li>
 </ul>
 <p>理解diff让我们更好的理解生命周期。</p>
+<h1 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h1><p><a href="https://github.com/erikras/react-redux-universal-hot-example" target="_blank" rel="external">react-redux-universal-hot-example</a> 一个使用全面技术的例子</p>
 
       
     </div>
@@ -549,7 +550,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -613,7 +614,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#React知识点"><span class="nav-number">1.</span> <span class="nav-text">React知识点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React性能优化-amp-最佳实践"><span class="nav-number">2.</span> <span class="nav-text">React性能优化 & 最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Immutable"><span class="nav-number">2.1.</span> <span class="nav-text">Immutable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redux"><span class="nav-number">2.2.</span> <span class="nav-text">Redux</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-Diff"><span class="nav-number">3.</span> <span class="nav-text">React Diff</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#React知识点"><span class="nav-number">1.</span> <span class="nav-text">React知识点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React性能优化-amp-最佳实践"><span class="nav-number">2.</span> <span class="nav-text">React性能优化 & 最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Immutable"><span class="nav-number">2.1.</span> <span class="nav-text">Immutable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redux"><span class="nav-number">2.2.</span> <span class="nav-text">Redux</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-Diff"><span class="nav-number">3.</span> <span class="nav-text">React Diff</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#资源"><span class="nav-number">4.</span> <span class="nav-text">资源</span></a></li></ol></div>
             
 
           </div>

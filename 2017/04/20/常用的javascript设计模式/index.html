@@ -1,0 +1,878 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="转载自AlloyTeam：http://www.alloyteam.com/2012/10/common-javascript-design-patterns/">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用的javascript设计模式">
+<meta property="og:url" content="http://yoursite.com/2017/04/20/常用的javascript设计模式/index.html">
+<meta property="og:site_name" content="RuAn">
+<meta property="og:description" content="转载自AlloyTeam：http://www.alloyteam.com/2012/10/common-javascript-design-patterns/">
+<meta property="og:image" content="http://yoursite.com/2017/04/20/常用的javascript设计模式/image-11.jpg">
+<meta property="og:image" content="http://jbcdn2.b0.upaiyun.com/2012/10/image-2.jpg">
+<meta property="og:updated_time" content="2017-04-20T09:45:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用的javascript设计模式">
+<meta name="twitter:description" content="转载自AlloyTeam：http://www.alloyteam.com/2012/10/common-javascript-design-patterns/">
+<meta name="twitter:image" content="http://yoursite.com/2017/04/20/常用的javascript设计模式/image-11.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/20/常用的javascript设计模式/"/>
+
+
+
+
+
+  <title> 常用的javascript设计模式 | RuAn </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f87e7764dc5b2d9e0fede98fb99d7f10";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">RuAn</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/20/常用的javascript设计模式/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="RuAn">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="RuAn">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="RuAn" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                常用的javascript设计模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-20T09:29:15+08:00">
+                2017-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/20/常用的javascript设计模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/20/常用的javascript设计模式/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>转载自AlloyTeam：<a href="http://www.alloyteam.com/2012/10/common-javascript-design-patterns/" target="_blank" rel="external">http://www.alloyteam.com/2012/10/common-javascript-design-patterns/</a></p>
+</blockquote>
+<a id="more"></a>
+<p>《<a href="http://www.amazon.cn/gp/product/B005V9BBDK/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B005V9BBDK&amp;linkCode=as2&amp;tag=vastwork-23" target="_blank" rel="external">Practical Common Lisp</a>》的作者 Peter Seibel 曾说，如果你需要一种模式，那一定是哪里出了问题。他所说的问题是指因为语言的天生缺陷，不得不去寻求和总结一种通用的解决方案。</p>
+<p>不管是弱类型或强类型，静态或动态语言，命令式或说明式语言、每种语言都有天生的优缺点。一个牙买加运动员， 在短跑甚至拳击方面有一些优势，在练瑜伽上就欠缺一些。</p>
+<p>术士和暗影牧师很容易成为一个出色的辅助，而一个背着梅肯满地图飞的敌法就会略显尴尬。 换到程序中, 静态语言里可能需要花很多功夫来实现装饰者，而js由于能随时往对象上面扔方法，以至于装饰者模式在js里成了鸡肋。</p>
+<p>讲 Javascript 设计模式的书还比较少，《<a href="http://www.amazon.cn/gp/product/159059908X/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=159059908X&amp;linkCode=as2&amp;tag=vastwork-23" target="_blank" rel="external">Pro javaScript Design Patterns</a>》是比较经典的一本，但是它里面的例子举得比较啰嗦，所以结合我在工作中写过的代码，把我的理解总结一下。如果我的理解出现了偏差，请不吝指正。</p>
+<h1 id="一-单例模式"><a href="#一-单例模式" class="headerlink" title="一 单例模式"></a>一 单例模式</h1><p>单例模式的定义是产生一个类的唯一实例，但js本身是一种“无类”语言。很多讲js设计模式的文章把{}当成一个单例来使用也勉强说得通。因为js生成对象的方式有很多种，我们来看下另一种更有意义的单例。</p>
+<p>有这样一个常见的需求，点击某个按钮的时候需要在页面弹出一个遮罩层。比如web.qq.com点击登录的时候.</p>
+<p><img src="./image-11.jpg" alt=""></p>
+<p>这个生成灰色背景遮罩层的代码是很好写的.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> createMask = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">   <span class="keyword">return</span> <span class="built_in">document</span>,body.appendChild(  <span class="built_in">document</span>.createElement(div)  );</div><div class="line"> </div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">$( <span class="string">'button'</span> ).click( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">   Var mask  = createMask();</div><div class="line"> </div><div class="line">   mask.show();</div><div class="line"> </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>问题是, 这个遮罩层是全局唯一的, 那么每次调用createMask都会创建一个新的div, 虽然可以在隐藏遮罩层的把它remove掉. 但显然这样做不合理.</p>
+<p>再看下第二种方案, 在页面的一开始就创建好这个div. 然后用一个变量引用它.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var mask = document.body.appendChild( document.createElement( ''div' ) );</div><div class="line"> </div><div class="line">$( ''button' ).click( function()&#123;</div><div class="line"> </div><div class="line">   mask.show();</div><div class="line"> </div><div class="line">&#125; )</div></pre></td></tr></table></figure>
+<p>这样确实在页面只会创建一个遮罩层div, 但是另外一个问题随之而来, 也许我们永远都不需要这个遮罩层, 那又浪费掉一个div, 对dom节点的任何操作都应该非常吝啬.</p>
+<p>如果可以借助一个变量. 来判断是否已经创建过div呢?</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mask;</div><div class="line"> </div><div class="line"><span class="keyword">var</span> createMask = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">	<span class="keyword">if</span> ( mask ) <span class="keyword">return</span> mask;</div><div class="line">	 </div><div class="line">	<span class="keyword">else</span>&#123;</div><div class="line">	 </div><div class="line">		mask = <span class="built_in">document</span>,body.appendChild(  <span class="built_in">document</span>.createElement(div)  );</div><div class="line">	 </div><div class="line">		<span class="keyword">return</span> mask;</div><div class="line">	 </div><div class="line">	&#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看起来不错, 到这里的确完成了一个产生单列对象的函数. 我们再仔细看这段代码有什么不妥.</p>
+<p>首先这个函数是存在一定副作用的, 函数体内改变了外界变量mask的引用, 在多人协作的项目中, createMask是个不安全的函数. 另一方面, mask这个全局变量并不是非需不可. 再来改进一下.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> createMask = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> mask;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">return</span> mask || ( mask = <span class="built_in">document</span>.body.appendChild( <span class="built_in">document</span>.createElement(<span class="string">'div'</span>) ) )</div><div class="line">  &#125;</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
+<p>用了个简单的闭包把变量mask包起来, 至少对于createMask函数来讲, 它是封闭的.</p>
+<p>可能看到这里, 会觉得单例模式也太简单了. 的确一些设计模式都是非常简单的, 即使从没关注过设计模式的概念, 在平时的代码中也不知不觉用到了一些设计模式. 就像多年前我明白老汉推车是什么回事的时候也想过尼玛原来这就是老汉推车.</p>
+<p>GOF里的23种设计模式, 也是在软件开发中早就存在并反复使用的模式. 如果程序员没有明确意识到他使用过某些模式, 那么下次他也许会错过更合适的设计 (这段话来自《松本行弘的程序世界》).</p>
+<p>再回来正题, 前面那个单例还是有缺点. 它只能用于创建遮罩层. 假如我又需要写一个函数, 用来创建一个唯一的xhr对象呢? 能不能找到一个通用的singleton包装器.</p>
+<p>js中函数是第一型, 意味着函数也可以当参数传递. 看看最终的代码.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> singleton = <span class="function"><span class="keyword">function</span>(<span class="params"> fn </span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> result;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> result || ( result = fn .apply( <span class="keyword">this</span>, <span class="built_in">arguments</span> ) );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="keyword">var</span> createMask = singleton( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">	<span class="keyword">return</span> <span class="built_in">document</span>.body.appendChild( <span class="built_in">document</span>.createElement(<span class="string">'div'</span>) );</div><div class="line"> </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>用一个变量来保存第一次的返回值, 如果它已经被赋值过, 那么在以后的调用中优先返回该变量. 而真正创建遮罩层的代码是通过回调函数的方式传人到singleton包装器中的. 这种方式其实叫桥接模式. 关于桥接模式, 放在后面一点点来说.</p>
+<p>然而singleton函数也不是完美的, 它始终还是需要一个变量result来寄存div的引用. 遗憾的是js的函数式特性还不足以完全的消除声明和语句.</p>
+<h1 id="二-简单工厂模式"><a href="#二-简单工厂模式" class="headerlink" title="二 简单工厂模式"></a>二 简单工厂模式</h1><p>简单工厂模式是由一个方法来决定到底要创建哪个类的实例, 而这些实例经常都拥有相同的接口. 这种模式主要用在所实例化的类型在编译期并不能确定， 而是在执行期决定的情况。 说的通俗点，就像公司茶水间的饮料机，要咖啡还是牛奶取决于你按哪个按钮。</p>
+<p>简单工厂模式在创建ajax对象的时候也非常有用.</p>
+<p>之前我写了一个处理ajax异步嵌套的库，地址在<a href="https://github.com/AlloyTeam/DanceRequest" target="_blank" rel="external">https://github.com/AlloyTeam/DanceRequest</a>.</p>
+<p>这个库里提供了几种ajax请求的方式，包括xhr对象的get, post, 也包括跨域用的jsonp和iframe. 为了方便使用, 这几种方式都抽象到了同一个接口里面.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var request1 = Request('cgi.xx.com/xxx' , ''get' );</div><div class="line"> </div><div class="line">request1.start();</div><div class="line"> </div><div class="line">request1.done( fn );</div><div class="line"> </div><div class="line">var request2 = Request('cgi.xx.com/xxx' , ''jsonp' );</div><div class="line"> </div><div class="line">request2.start();</div><div class="line"> </div><div class="line">request2.done( fn );</div></pre></td></tr></table></figure>
+<p>Request实际上就是一个工厂方法, 至于到底是产生xhr的实例, 还是jsonp的实例. 是由后来的代码决定的。</p>
+<p>实际上在js里面，所谓的构造函数也是一个简单工厂。只是批了一件new的衣服. 我们扒掉这件衣服看看里面。</p>
+<p>通过这段代码, 在firefox, chrome等浏览器里，可以完美模拟new.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">       <span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"> name </span>)</span>&#123;</div><div class="line"></div><div class="line">              <span class="keyword">this</span>.name = name;</div><div class="line"></div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="function"><span class="keyword">function</span> <span class="title">ObjectFactory</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">              <span class="keyword">var</span> obj = &#123;&#125;,</div><div class="line"></div><div class="line">                     Constructor = <span class="built_in">Array</span>.prototype.shift.call( <span class="built_in">arguments</span> );</div><div class="line"></div><div class="line">obj.__proto__ =  <span class="keyword">typeof</span> Constructor .prototype === <span class="string">'number'</span>  ? <span class="built_in">Object</span>.prototype</div><div class="line"></div><div class="line">:  Constructor .prototype;</div><div class="line"></div><div class="line">              <span class="keyword">var</span> ret = Constructor.apply( obj, <span class="built_in">arguments</span> );</div><div class="line"></div><div class="line">              <span class="keyword">return</span> <span class="keyword">typeof</span> ret === <span class="string">'object'</span> ? ret : obj;</div><div class="line"></div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">var</span> a = ObjectFactory( A, <span class="string">'svenzeng'</span> );</div><div class="line"></div><div class="line">       alert ( a.name );  <span class="comment">//svenzeng</span></div></pre></td></tr></table></figure>
+<p>这段代码来自es5的new和构造器的相关说明， 可以看到，所谓的new， 本身只是一个对象的复制和改写过程， 而具体会生成什么是由调用ObjectFactory时传进去的参数所决定的。</p>
+<h1 id="三-观察者模式"><a href="#三-观察者模式" class="headerlink" title="三 观察者模式"></a>三 观察者模式</h1><p>观察者模式( 又叫发布者-订阅者模式 )应该是最常用的模式之一. 在很多语言里都得到大量应用. 包括我们平时接触的dom事件. 也是js和dom之间实现的一种观察者模式.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">div.onclick  =  function click ()&#123;</div><div class="line"> </div><div class="line">   alert ( ''click' )</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>只要订阅了div的click事件. 当点击div的时候, function click就会被触发.</p>
+<p>那么到底什么是观察者模式呢. 先看看生活中的观察者模式。</p>
+<p>好莱坞有句名言. “不要给我打电话， 我会给你打电话”. 这句话就解释了一个观察者模式的来龙去脉。 其中“我”是发布者， “你”是订阅者。</p>
+<p>再举个例子，我来公司面试的时候，完事之后每个面试官都会对我说：“请留下你的联系方式， 有消息我们会通知你”。 在这里“我”是订阅者， 面试官是发布者。所以我不用每天或者每小时都去询问面试结果， 通讯的主动权掌握在了面试官手上。而我只需要提供一个联系方式。</p>
+<p>观察者模式可以很好的实现2个模块之间的解耦。 假如我正在一个团队里开发一个html5游戏. 当游戏开始的时候，需要加载一些图片素材。加载好这些图片之后开始才执行游戏逻辑. 假设这是一个需要多人合作的项目. 我完成了Gamer和Map模块, 而我的同事A写了一个图片加载器loadImage.</p>
+<p>loadImage的代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">loadImage(  imgAry,  <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">	<span class="built_in">Map</span>.init();</div><div class="line">	 </div><div class="line">	Gamer.init();</div><div class="line"> </div><div class="line">&#125; )</div></pre></td></tr></table></figure>
+<p>当图片加载好之后, 再渲染地图, 执行游戏逻辑. 嗯, 这个程序运行良好. 突然有一天, 我想起应该给游戏加上声音功能. 我应该让图片加载器添上一行代码.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">loadImage(  imgAry,  <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">	<span class="built_in">Map</span>.init();</div><div class="line">	 </div><div class="line">	Gamer.init();</div><div class="line"> 	</div><div class="line"> 	Sount.init();</div><div class="line">&#125; )</div></pre></td></tr></table></figure>
+<p>可是写这个模块的同事A去了外地旅游. 于是我打电话给他, 喂. 你的loadImage函数在哪, 我能不能改一下, 改了之后有没有副作用. 如你所想, 各种不淡定的事发生了. 如果当初我们能这样写呢:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">loadImage.listen( <span class="string">'ready'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">    <span class="built_in">Map</span>.init();</div><div class="line"> </div><div class="line">&#125;)</div><div class="line"> </div><div class="line">loadImage.listen( <span class="string">'ready'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">   Gamer.init();</div><div class="line"> </div><div class="line">&#125;)</div><div class="line"> </div><div class="line">loadImage.listen( <span class="string">'ready'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">   Sount.init();</div><div class="line"> </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>loadImage完成之后, 它根本不关心将来会发生什么, 因为它的工作已经完成了. 接下来它只要发布一个信号.</p>
+<p>loadImage.trigger( ‘ready’ );</p>
+<p>那么监听了loadImage的’ready’事件的对象都会收到通知. 就像上个面试的例子. 面试官根本不关心面试者们收到面试结果后会去哪吃饭. 他只负责把面试者的简历搜集到一起. 当面试结果出来时照着简历上的电话挨个通知.</p>
+<p>说了这么多概念, 来一个具体的实现. 实现过程其实很简单. 面试者把简历扔到一个盒子里， 然后面试官在合适的时机拿着盒子里的简历挨个打电话通知结果.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line">Events = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"> </div><div class="line">           <span class="keyword">var</span> listen, log, obj, one, remove, trigger, __this;</div><div class="line"> </div><div class="line">           obj = &#123;&#125;;</div><div class="line"> </div><div class="line">           __this = <span class="keyword">this</span>;</div><div class="line"> </div><div class="line">           listen = <span class="function"><span class="keyword">function</span>(<span class="params"> key, eventfn </span>) </span>&#123;  <span class="comment">//把简历扔盒子, key就是联系方式.</span></div><div class="line"> </div><div class="line">             <span class="keyword">var</span> stack, _ref;  <span class="comment">//stack是盒子</span></div><div class="line"> </div><div class="line">             stack = ( _ref = obj[key] ) != <span class="literal">null</span> ? _ref : obj[ key ] = [];</div><div class="line"> </div><div class="line">             <span class="keyword">return</span> stack.push( eventfn );</div><div class="line"> </div><div class="line">           &#125;;</div><div class="line"> </div><div class="line">           one = <span class="function"><span class="keyword">function</span>(<span class="params"> key, eventfn </span>) </span>&#123;</div><div class="line"> </div><div class="line">             remove( key );</div><div class="line"> </div><div class="line">             <span class="keyword">return</span> listen( key, eventfn );</div><div class="line"> </div><div class="line">           &#125;;</div><div class="line"> </div><div class="line">           remove = <span class="function"><span class="keyword">function</span>(<span class="params"> key </span>) </span>&#123;</div><div class="line"> </div><div class="line">             <span class="keyword">var</span> _ref;</div><div class="line"> </div><div class="line">             <span class="keyword">return</span> ( _ref = obj[key] ) != <span class="literal">null</span> ? _ref.length = <span class="number">0</span> : <span class="keyword">void</span> <span class="number">0</span>;</div><div class="line"> </div><div class="line">           &#125;;</div><div class="line"> </div><div class="line">           trigger = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  <span class="comment">//面试官打电话通知面试者</span></div><div class="line"> </div><div class="line">             <span class="keyword">var</span> fn, stack, _i, _len, _ref, key;</div><div class="line"> </div><div class="line">             key = <span class="built_in">Array</span>.prototype.shift.call( <span class="built_in">arguments</span> ); </div><div class="line"> </div><div class="line">             stack = ( _ref = obj[ key ] ) != <span class="literal">null</span> ? _ref : obj[ key ] = [];</div><div class="line"> </div><div class="line">             <span class="keyword">for</span> ( _i = <span class="number">0</span>, _len = stack.length; _i &lt; _len; _i++ ) &#123;</div><div class="line"> </div><div class="line">               fn = stack[ _i ];</div><div class="line"> </div><div class="line">               <span class="keyword">if</span> ( fn.apply( __this,  <span class="built_in">arguments</span> ) === <span class="literal">false</span>) &#123;</div><div class="line"> </div><div class="line">                 <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line"> </div><div class="line">               &#125;</div><div class="line"> </div><div class="line">             &#125;</div><div class="line"> </div><div class="line">             <span class="keyword">return</span> &#123;</div><div class="line"> </div><div class="line">                <span class="attr">listen</span>: listen,</div><div class="line"> </div><div class="line">                <span class="attr">one</span>: one,</div><div class="line"> </div><div class="line">                <span class="attr">remove</span>: remove,</div><div class="line"> </div><div class="line">                <span class="attr">trigger</span>: trigger</div><div class="line"> </div><div class="line">             &#125;</div><div class="line"> </div><div class="line">           &#125;</div></pre></td></tr></table></figure>
+<p>最后用观察者模式来做一个成人电视台的小应用.<br>//订阅者</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> adultTv = Event();</div><div class="line"> </div><div class="line"> </div><div class="line"> </div><div class="line">adultTv .listen(  <span class="string">'play'</span>,  <span class="function"><span class="keyword">function</span>(<span class="params"> data </span>)</span>&#123;</div><div class="line"> </div><div class="line">   alert ( <span class="string">"今天是谁的电影"</span> + data.name );</div><div class="line"> </div><div class="line">&#125;);</div><div class="line"> </div><div class="line"><span class="comment">//发布者</span></div><div class="line"> </div><div class="line">adultTv .trigger(  <span class="string">'play'</span>,  &#123; <span class="string">'name'</span>: <span class="string">'麻生希'</span> &#125;  )</div></pre></td></tr></table></figure>
+<h1 id="四-适配器模式"><a href="#四-适配器模式" class="headerlink" title="四 适配器模式"></a>四 适配器模式</h1><p>去年年前当时正在开发dev.qplus.com, 有个存储应用分类id的js文件, 分类id的结构最开始设计的比较笨重. 于是我决定重构它. 我把它定义成一个json树的形式, 大概是这样:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> category = &#123;</div><div class="line">	<span class="attr">music</span>: &#123;</div><div class="line">		<span class="attr">id</span>: <span class="number">1</span>,</div><div class="line">		<span class="attr">children</span>: [ , , , , ]</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>dev.qplus.com里大概有4，5个页面都调用这个category对象. 春节前我休了1个星期假. 过年来之后发现邮箱里有封邮件, 设计数据库的同学把category..js也重构了一份, 并且其他几个项目里都是用了这份category.js, 我拿过来一看就傻眼了, 和我之前定的数据结构完全不一样.</p>
+<p>当然这是一个沟通上的反面例子. 但接下来的重点是我已经在N个文件里用到了之前我定的category.js. 而且惹上了一些复杂的相关逻辑. 怎么改掉我之前的代码呢. 全部重写肯定是不愿意. 所以现在适配器就派上用场了.</p>
+<p>只需要把同事的category用一个函数转成跟我之前定义的一样.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">my.category = adapterCategory ( afu.category );</div></pre></td></tr></table></figure>
+<p>适配器模式的作用很像一个转接口. 本来iphone的充电器是不能直接插在电脑机箱上的, 而通过一个usb转接口就可以了.</p>
+<p>所以, 在程序里适配器模式也经常用来适配2个接口, 比如你现在正在用一个自定义的js库. 里面有个根据id获取节点的方法$id(). 有天你觉得jquery里的$实现得更酷, 但你又不想让你的工程师去学习新的库和语法. 那一个适配器就能让你完成这件事情.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$id = <span class="function"><span class="keyword">function</span>(<span class="params"> id </span>)</span>&#123;</div><div class="line"> </div><div class="line">  <span class="keyword">return</span> jQuery( <span class="string">'#'</span> + id )[<span class="number">0</span>];</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="五-代理模式"><a href="#五-代理模式" class="headerlink" title="五 代理模式"></a>五 代理模式</h1><p>代理模式的定义是把对一个对象的访问, 交给另一个代理对象来操作.</p>
+<p>举一个例子, 我在追一个MM想给她送一束花，但是我因为我性格比较腼腆，所以我托付了MM的一个好朋友来送。</p>
+<p>这个例子不是非常好， 至少我们没看出代理模式有什么大的用处，因为追MM更好的方式是送一台宝马。</p>
+<p>再举个例子，假如我每天都得写工作日报( 其实没有这么惨 ). 我的日报最后会让总监审阅. 如果我们都直接把日报发给 总监 , 那可能 总监 就没法工作了. 所以通常的做法是把日报发给我的组长 ， 组长把所有组员一周的日报都汇总后再发给总监 .</p>
+<p>实际的编程中， 这种因为性能问题使用代理模式的机会是非常多的。比如频繁的访问dom节点, 频繁的请求远程资源. 可以把操作先存到一个缓冲区, 然后自己选择真正的触发时机.</p>
+<p>再来个详细的例子，之前我写了一个街头霸王的游戏, 地址在<a href="http://alloyteam.github.com/StreetFighter/" target="_blank" rel="external">http://alloyteam.github.com/StreetFighter/</a><br><img src="http://jbcdn2.b0.upaiyun.com/2012/10/image-2.jpg" alt=""><br>游戏中隆需要接受键盘的事件, 来完成相应动作.</p>
+<p>于是我写了一个keyManage类. 其中在游戏主线程里监听keyManage的变化.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> keyMgr = keyManage();</div><div class="line"> </div><div class="line">keyMgr.listen( <span class="string">'change'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> keyCode </span>)</span>&#123;</div><div class="line"> </div><div class="line">   <span class="built_in">console</span>.log( keyCode );</div><div class="line"> </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>图片里面隆正在放升龙拳, 升龙拳的操作是前下前+拳. 但是这个keyManage类只要发生键盘事件就会触发之前监听的change函数. 这意味着永远只能取得前，后，前，拳这样单独的按键事件，而无法得到一个按键组合。</p>
+<p>好吧，我决定改写我的keyManage类, 让它也支持传递按键组合. 但是如果我以后写个html5版双截龙，意味着我每次都得改写keyManage. 我总是觉得, 这种函数应该可以抽象成一个更底层的方法, 让任何游戏都可以用上它.</p>
+<p>所以最后的keyManage只负责映射键盘事件. 而隆接受到的动作是通过一个代理对象处理之后的.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> request = Ajax.get( <span class="string">'cgi.xx.com/xxx'</span> );</div><div class="line"> </div><div class="line">request.send();</div><div class="line"> </div><div class="line">request.done(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h1 id="六-桥接模式"><a href="#六-桥接模式" class="headerlink" title="六 桥接模式"></a>六 桥接模式</h1><p>桥接模式的作用在于<strong>将实现部分和抽象部分分离开来</strong>， 以便两者可以独立的变化。在实现api的时候， 桥接模式特别有用。比如最开始的singleton的例子.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> singleton = <span class="function"><span class="keyword">function</span>(<span class="params"> fn </span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> result;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> result || ( result = fn .apply( <span class="keyword">this</span>, <span class="built_in">arguments</span> ) );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="keyword">var</span> createMask = singleton( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">	<span class="keyword">return</span> <span class="built_in">document</span>.body.appendChild( <span class="built_in">document</span>.createElement(<span class="string">'div'</span>) );</div><div class="line"> </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>singleton是抽象部分， 而createMask是实现部分。 他们完全可以独自变化互不影响。 如果需要再写一个单例的createScript就一点也不费力.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> createScript = singleton( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> </div><div class="line">	<span class="keyword">return</span> <span class="built_in">document</span>.body.appendChild( <span class="built_in">document</span>.createElement(<span class="string">'script'</span>) );</div><div class="line"> </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>另外一个常见的例子就是forEach函数的实现, 用来迭代一个数组.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">forEach = <span class="function"><span class="keyword">function</span>(<span class="params"> ary, fn </span>)</span>&#123;</div><div class="line">  <span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>, l = ary.length; i &lt; l; i++ )&#123;</div><div class="line">    <span class="keyword">var</span> c = ary[ i ];</div><div class="line">    <span class="keyword">if</span> ( fn.call( c, i, c ) === <span class="literal">false</span> )&#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到, forEach函数并不关心fn里面的具体实现. fn里面的逻辑也不会被forEach函数的改写影响.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">forEach( [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> i, n </span>)</span>&#123;</div><div class="line"> </div><div class="line"> alert ( n*<span class="number">2</span> )</div><div class="line"> </div><div class="line">&#125; )</div><div class="line"> </div><div class="line">forEach( [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> i, n </span>)</span>&#123;</div><div class="line"> </div><div class="line">  alert ( n*<span class="number">3</span> )</div><div class="line"> </div><div class="line">&#125; )</div></pre></td></tr></table></figure>
+<h1 id="七-外观模式"><a href="#七-外观模式" class="headerlink" title="七 外观模式"></a>七 外观模式</h1><p>外观模式(门面模式)，是一种相对简单而又无处不在的模式。外观模式提供一个高层接口，这个接口使得客户端或子系统更加方便调用。<br>用一段再简单不过的代码来表示</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var getName = function()&#123;</div><div class="line">  return ''svenzeng"</div><div class="line">&#125;</div><div class="line">var getSex = function()&#123;</div><div class="line">   return 'man'</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果你需要分别调用getName和getSex函数. 那可以用一个更高层的接口getUserInfo来调用.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getUserInfo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> info = a() + b();</div><div class="line">  <span class="keyword">return</span> info;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>也许你会问为什么一开始不把getName和getSex的代码写到一起, 比如这样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> getNameAndSex = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="string">'svenzeng'</span> + <span class="string">'man'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>答案是显而易见的，饭堂的炒菜师傅不会因为你预定了一份烧鸭和一份白菜就把这两样菜炒在一个锅里。他更愿意给你提供一个烧鸭饭套餐。同样在程序设计中，我们需要保证函数或者对象尽可能的处在一个合理粒度，毕竟不是每个人喜欢吃烧鸭的同时又刚好喜欢吃白菜。<br>外观模式还有一个好处是可以对用户隐藏真正的实现细节，用户只关心最高层的接口。比如在烧鸭饭套餐的故事中，你并不关心师傅是先做烧鸭还是先炒白菜，你也不关心那只鸭子是在哪里成长的。</p>
+<p>最后写个我们都用过的外观模式例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> stopEvent = <span class="function"><span class="keyword">function</span>(<span class="params"> e </span>)</span>&#123;   <span class="comment">//同时阻止事件默认行为和冒泡</span></div><div class="line">  e.stopPropagation();</div><div class="line">  e.preventDefault();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="八-访问者模式"><a href="#八-访问者模式" class="headerlink" title="八 访问者模式"></a>八 访问者模式</h1><p>GOF官方定义： 访问者模式是表示一个作用于某个对象结构中的各元素的操作。它使可以在不改变各元素的类的前提下定义作用于这些元素的新操作。我们在使用一些操作对不同的对象进行处理时，往往会根据不同的对象选择不同的处理方法和过程。在实际的代码过程中，我们可以发现，如果让所有的操作分散到各个对象中，整个系统会变得难以维护和修改。且增加新的操作通常都要重新编译所有的类。因此，为了解决这个问题，我们可以将每一个类中的相关操作提取出来，包装成一个独立的对象，这个对象我们就称为访问者（Visitor）。利用访问者，对访问的元素进行某些操作时，只需将此对象作为参数传递给当前访问者，然后，访问者会依据被访问者的具体信息，进行相关的操作。</p>
+<p>据统计，上面这段话只有5%的人会看到最后一句。那么通俗点讲，访问者模式先把一些可复用的行为抽象到一个函数(对象)里，这个函数我们就称为访问者（Visitor）。如果另外一些对象要调用这个函数，只需要把那些对象当作参数传给这个函数，在js里我们经常通过call或者apply的方式传递this对象给一个Visitor函数.<br>访问者模式也被称为GOF总结的23种设计模式中最难理解的一种。不过这有很大一部分原因是因为《设计模式》基于C++和Smalltalk写成. 在强类型语言中需要通过多次重载来实现访问者的接口匹配。</p>
+<p>而在js这种基于鸭子类型的语言中，访问者模式几乎是原生的实现, 所以我们可以利用apply和call毫不费力的使用访问者模式，这一小节更关心的是这种模式的思想以及在js引擎中的实现。</p>
+<p>我们先来了解一下什么是鸭子类型，说个故事：<br>很久以前有个皇帝喜欢听鸭子呱呱叫，于是他召集大臣组建一个一千只鸭子的合唱团。大臣把全国的鸭子都抓来了，最后始终还差一只。有天终于来了一只自告奋勇的鸡，这只鸡说它也会呱呱叫，好吧在这个故事的设定里，它确实会呱呱叫。 后来故事的发展很明显，这只鸡混到了鸭子的合唱团中。— 皇帝只是想听呱呱叫，他才不在乎你是鸭子还是鸡呢。</p>
+<p>这个就是鸭子类型的概念，在js这种弱类型语言里，很多方法里都不做对象的类型检测，而是只关心这些对象能做什么。<br>Array构造器和String构造器的prototype上的方法就被特意设计成了访问者。这些方法不对this的数据类型做任何校验。这也就是为什么arguments能冒充array调用push方法.</p>
+<p>看下v8引擎里面Array.prototype.push的代码:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ArrayPush</span>(<span class="params"></span>) </span>&#123;  </div><div class="line">	<span class="keyword">var</span> n = TO_UINT32( <span class="keyword">this</span>.length );</div><div class="line">	<span class="keyword">var</span> m = %_ArgumentsLength();    </div><div class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;    </div><div class="line">		<span class="keyword">this</span>[i+n] = %_Arguments(i);    <span class="comment">//属性拷贝  </span></div><div class="line">	&#125;  </div><div class="line">	<span class="keyword">this</span>.length = n + m;             <span class="comment">//修正length  </span></div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.length;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，ArrayPush方法没有对this的类型做任何显示的限制，所以理论上任何对象都可以被传入ArrayPush这个访问者。</p>
+<p>不过在代码的执行期，还是会受到一些隐式限制，在上面的例子很容易看出要求:<br>1、 this对象上面可储存属性. //反例: 值类型的数据<br>2、 this的length属性可写. //反例: functon对象, function有一个只读的length属性, 表示形参个数.</p>
+<p>如果不符合这2条规则的话，代码在执行期会报错. 也就是说, Array.prototype.push.call( 1, ‘first’ )和Array.prototoype.push.call( function(){}, ‘first’ )都达不到预期的效果.</p>
+<p>利用访问者，我们来做个有趣的事情. 给一个object对象增加push方法.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var Visitor = &#123;&#125;</div><div class="line">Visitor .push  =  function()&#123;</div><div class="line">    return Array.prototype.push.apply( this, arguments );</div><div class="line">&#125;</div><div class="line">var obj = &#123;&#125;;</div><div class="line">obj.push = Visitor .push;</div><div class="line">obj.push( '"first" );</div><div class="line">alert ( obj[0] )  //"first"</div><div class="line">alert ( obj.length );  //1</div></pre></td></tr></table></figure>
+<h1 id="九-策略模式"><a href="#九-策略模式" class="headerlink" title="九 策略模式"></a>九 策略模式</h1><p>策略模式的意义是定义一系列的算法，把它们一个个封装起来，并且使它们可相互替换。<br>一个小例子就能让我们一目了然。<br>回忆下jquery里的animate方法.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$( div ).animate( &#123;<span class="string">"left: 200px"</span>&#125;, <span class="number">1000</span>, <span class="string">'linear'</span> );  <span class="comment">//匀速运动</span></div><div class="line">$( div ).animate( &#123;<span class="string">"left: 200px"</span>&#125;, <span class="number">1000</span>, <span class="string">'cubic'</span> );  <span class="comment">//三次方的缓动</span></div></pre></td></tr></table></figure></p>
+<p>这2句代码都是让div在1000ms内往右移动200个像素. linear(匀速)和cubic(三次方缓动)就是一种策略模式的封装.<br>再来一个例子. 上半年我写的dev.qplus.com, 很多页面都会有个即时验证的表单. 表单的每个成员都会有一些不同的验证规则.</p>
+<p>比如姓名框里面， 需要验证非空，敏感词，字符过长这几种情况。 当然是可以写3个if else来解决，不过这样写代码的扩展性和维护性可想而知。如果表单里面的元素多一点，需要校验的情况多一点，加起来写上百个if else也不是没有可能。<br>所以更好的做法是把每种验证规则都用策略模式单独的封装起来。需要哪种验证的时候只需要提供这个策略的名字。就像这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">nameInput.addValidata(&#123;</div><div class="line">   <span class="attr">notNull</span>: <span class="literal">true</span>,</div><div class="line">   <span class="attr">dirtyWords</span>: <span class="literal">true</span>,</div><div class="line">   <span class="attr">maxLength</span>: <span class="number">30</span></div><div class="line">&#125;)</div><div class="line">而notNull，maxLength等方法只需要统一的返回<span class="literal">true</span>或者<span class="literal">false</span>，来表示是否通过了验证。</div><div class="line">validataList = &#123;</div><div class="line">  <span class="attr">notNull</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> value </span>)</span>&#123;</div><div class="line">     <span class="keyword">return</span> value !== <span class="string">''</span>;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">maxLength</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> value, maxLen </span>)</span>&#123;</div><div class="line">     <span class="keyword">return</span> value.length() &gt; maxLen;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，各种验证规则很容易被修改和相互替换。如果某天产品经理建议字符过长的限制改成60个字符。那只需要0.5秒完成这次工作。</p>
+<h1 id="十-模版方法模式"><a href="#十-模版方法模式" class="headerlink" title="十 模版方法模式"></a>十 模版方法模式</h1><p>模式方法是预先定义一组算法，先把算法的不变部分抽象到父类，再将另外一些可变的步骤延迟到子类去实现。听起来有点像工厂模式( 非前面说过的简单工厂模式 ).<br>最大的区别是,工厂模式的意图是根据子类的实现最终获得一种对象. 而模版方法模式着重于父类对子类的控制.</p>
+<p>按GOF的描叙，模版方法导致一种反向的控制结构，这种结构有时被称为“好莱坞法则”，即“别找我们，我们找你”。这指的是一个父类调用一个子类的操作，而不是相反。<br>一个很常用的场景是在一个公司的项目中，经常由架构师搭好架构，声明出抽象方法。下面的程序员再去分头重写这些抽象方法。</p>
+<p>在深入了解之前，容许我先扯远一点。<br>作为一个进化论的反对者，假设这个世界是上帝用代码创造的。那么上帝创造生命的时候可能就用到了模版方法模式。看看他是怎么在生命构造器中声明模版方法的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Life = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line">Life.prototype.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">   <span class="keyword">this</span>.DNA复制();</div><div class="line">   <span class="keyword">this</span>.出生();</div><div class="line">   <span class="keyword">this</span>.成长();</div><div class="line">   <span class="keyword">this</span>.衰老();</div><div class="line">   <span class="keyword">this</span>.死亡();</div><div class="line">&#125;</div><div class="line"><span class="keyword">this</span>.prototype.DNA复制 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  &amp;*$%&amp;^%^&amp;(&amp;(&amp;(&amp;&amp;(^^(*)  <span class="comment">//看不懂的代码</span></div><div class="line">&#125;</div><div class="line">Life.prototype.出生 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line">Life.prototype.成长 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line">Life.prototype.衰老 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line">Life.prototype.死亡 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中DNA复制是预先定义的算法中不变部分. 所有子类都不能改写它. 如果需要我们可以写成protected的类型.<br>而其他的函数在父类中会被先定义成一个空函数(钩子). 然后被子类重写，这就是模版方法中所谓的可变的步骤。<br>假设有个子类哺乳动物类继承了Life类.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Mammal = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line">Mammal.prototype = Life.prototype;   <span class="comment">//继承Life</span></div></pre></td></tr></table></figure>
+<p>然后重写出生和衰老这两个钩子函数.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Mammal.prototope.出生 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="comment">//胎生()</span></div><div class="line">&#125;</div><div class="line">Mammal.prototype.成长 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="comment">//再留给子类去实现</span></div><div class="line">&#125;</div><div class="line">Mammal.prototope.衰老 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="comment">//自由基的过氧化反应()</span></div><div class="line">&#125;</div><div class="line">Life.prototype.死亡 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"> <span class="comment">//再留给子类去实现</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//再实现一个Dog类</span></div><div class="line"><span class="keyword">var</span> = Dog = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Dog继承自哺乳动物.</span></div><div class="line">Dog.prototype = Mammal.prototype;</div><div class="line"><span class="keyword">var</span> dog = <span class="keyword">new</span> Dog();</div><div class="line">dog.init();</div></pre></td></tr></table></figure>
+<p>至此，一只小狗的生命会依次经历DNA复制，出生，成长，衰老，死亡这几个过程。这些步骤早在它出生前就决定了。所幸的是，上帝没有安排好它生命的所有细节。它还是能通过对成长函数的重写，来成为一只与众不同的小狗。</p>
+<p>举个稍微现实点的例子，游戏大厅中的所有游戏都有登录，游戏中，游戏结束这几个过程，而登录和游戏结束之后弹出提示这些函数都是应该公用的。<br>那么首先需要的是一个父类。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> gameCenter = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line">gameCenter.ptototype.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">this</span>.login();</div><div class="line">  <span class="keyword">this</span>.gameStart();</div><div class="line">  <span class="keyword">this</span>.end();</div><div class="line">&#125;</div><div class="line">gameCenter.prototype.login= <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">   <span class="comment">//do something</span></div><div class="line">&#125;</div><div class="line">gameCenter.prototype.gameStart= <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">   <span class="comment">//空函数, 留给子类去重写</span></div><div class="line">&#125;</div><div class="line">gameCenter.prototype.end= <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  alert ( <span class="string">"欢迎下次再来玩"</span> );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接下来创建一个斗地主的新游戏, 只需要继承gameCenter然后重写它的gameStart函数.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> 斗地主 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;</div><div class="line">斗地主.prototype = gameCenter.prototype;  <span class="comment">//继承</span></div><div class="line">斗地主.prototype.gameStart = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="comment">//do something</span></div><div class="line">&#125;</div><div class="line">(<span class="keyword">new</span> 斗地主).init();</div></pre></td></tr></table></figure></p>
+<p>这样一局新的游戏就开始了.</p>
+<h1 id="十一-中介者模式"><a href="#十一-中介者模式" class="headerlink" title="十一 中介者模式"></a>十一 中介者模式</h1><p>中介者对象可以让各个对象之间不需要显示的相互引用，从而使其耦合松散，而且可以独立的改变它们之间的交互。</p>
+<p>打个比方，军火买卖双方为了安全起见，找了一个信任的中介来进行交易。买家A把钱交给中介B，然后从中介手中得到军火，卖家C把军火卖给中介，然后从中介手中拿回钱。一场交易完毕，A甚至不知道C是一只猴子还是一只猛犸。因为中介的存在，A也未必一定要买C的军火，也可能是D，E，F。</p>
+<p>银行在存款人和贷款人之间也能看成一个中介。存款人A并不关心他的钱最后被谁借走。贷款人B也不关心他借来的钱来自谁的存款。因为有中介的存在，这场交易才变得如此方便。</p>
+<p>中介者模式和代理模式有一点点相似。都是第三者对象来连接2个对象的通信。具体差别可以从下图中区别。</p>
+<p>代理模式：</p>
+<p>A –&gt;  C  –&gt; B</p>
+<p>中介者模式</p>
+<p>A –&gt;     –&gt; E<br>B –&gt;  D  –&gt; F<br>C –&gt;     –&gt; G</p>
+<p>代理模式中A必然是知道B的一切，而中介者模式中A,B,C对E,F,G的实现并不关心.而且中介者模式可以连接任意多种对象。</p>
+<p>切回到程序世界里的mvc，无论是j2ee中struts的Action. 还是js中backbone.js和spine.js里的Controler. 都起到了一个中介者的作用.<br>拿backbone举例. 一个mode里的数据并不确定最后被哪些view使用. view需要的数据也可以来自任意一个mode. 所有的绑定关系都是在controler里决定. 中介者把复杂的多对多关系, 变成了2个相对简单的1对多关系.</p>
+<p>一段简单的示例代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mode1 = Mode.create(),  mode2 = Mode.create();</div><div class="line"><span class="keyword">var</span> view1 = View.create(),   view2 = View.create();</div><div class="line"><span class="keyword">var</span> controler1 = Controler.create( mode1, view1, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  view1.el.find( <span class="string">''</span>div<span class="string">' ).bind( '</span><span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.innerHTML = mode1.find( <span class="string">'data'</span> );</div><div class="line">  &#125; )</div><div class="line">&#125;)</div><div class="line"><span class="keyword">var</span> controler2 = Controler.create( mode2 view2, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  view1.el.find( <span class="string">''</span>div<span class="string">' ).bind( '</span><span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.innerHTML = mode2.find( <span class="string">'data'</span> );</div><div class="line">  &#125; )</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h1 id="十二-迭代器模式"><a href="#十二-迭代器模式" class="headerlink" title="十二 迭代器模式"></a>十二 迭代器模式</h1><p>迭代器模式提供一种方法顺序访问一个聚合对象中各个元素，而又不需要暴露该方法中的内部表示。<br>js中我们经常会封装一个each函数用来实现迭代器。<br>array的迭代器：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">forEach = <span class="function"><span class="keyword">function</span>(<span class="params"> ary, fn </span>)</span>&#123;  </div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i = <span class="number">0</span>, l = ary.length; i &lt; l; i++ )&#123;    </div><div class="line">		<span class="keyword">var</span> c = ary[ i ];    </div><div class="line">		<span class="keyword">if</span> ( fn.call( c, i , c ) === <span class="literal">false</span> )&#123;      </div><div class="line">			<span class="keyword">return</span> <span class="literal">false</span>;    </div><div class="line">		&#125;   </div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">forEach( [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> ], <span class="function"><span class="keyword">function</span>(<span class="params"> i, n </span>)</span>&#123;</div><div class="line">  alert ( i );</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>obejct的迭代器:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">forEach = <span class="function"><span class="keyword">function</span>(<span class="params"> obj, fn </span>)</span>&#123;  </div><div class="line">	<span class="keyword">for</span> ( <span class="keyword">var</span> i <span class="keyword">in</span> obj )&#123;    </div><div class="line">		<span class="keyword">var</span> c = obj[ i ];    </div><div class="line">		<span class="keyword">if</span> ( fn.call( c, i, c ) === <span class="literal">false</span> )&#123;      </div><div class="line">			<span class="keyword">return</span> <span class="literal">false</span>;    </div><div class="line">		&#125;   </div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">forEach( &#123;<span class="string">"a"</span>: <span class="number">1</span>,<span class="string">"b"</span>: <span class="number">2</span>&#125;, <span class="function"><span class="keyword">function</span>(<span class="params"> i, n </span>)</span>&#123;</div><div class="line">  alert ( i );</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h1 id="十三-组合模式"><a href="#十三-组合模式" class="headerlink" title="十三 组合模式"></a>十三 组合模式</h1><p>组合模式又叫部分-整体模式，它将所有对象组合成树形结构。使得用户只需要操作最上层的接口，就可以对所有成员做相同的操作。<br>一个再好不过的例子就是jquery对象，大家都知道1个jquery对象其实是一组对象集合。比如在这样一个HTML页面<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>我们想取消所有节点上绑定的事件, 需要这样写<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> allNodes = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"*"</span>);</div><div class="line"><span class="keyword">var</span> len = allNodes.length;</div><div class="line"><span class="keyword">while</span>( len-- )&#123;</div><div class="line">  allNodes.unbind(<span class="string">"*"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但既然用了jquery，就肯定不会再做这么搓的事情。我们只需要$( ‘body’ ).unbind( ‘*’ );<br>当每个元素都实现unbind接口, 那么只需调用最上层对象$( ‘body’ )的unbind, 便可自动迭代并调用所有组合元素的unbind方法.<br>再来个具体点的例子， 还是dev.qplus.com这个网站的即时验证表单。</p>
+<p>注意下面那个修改资料的按钮，如果有任意一个field的验证没有通过，修改资料的按钮都将是灰色不可点的状态。 这意味着我们重新填写了表单内容后, 都得去校验每个field, 保证它们全部OK.<br>这代码不难实现.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( nameField.validata() &amp;&amp; idCard.validata() &amp;&amp; email.validata() &amp;&amp; phone.validata() )&#123;</div><div class="line">   alert ( <span class="string">"验证OK"</span> );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>似乎我们用一个外观模式也能勉强解决这里条件分支堆砌的问题，但真正的问题是，我们并不能保证表单里field的数量，也许明天产品经理就让你删掉一个或者增加两个.那么这样的维护方式显然不能被接受.<br>更好的实现是有一个form.validata函数, 它负责把真正的validata操作分发给每个组合对象.<br>form.validata函数里面会依次遍历所有需要校验的field. 若有一个field校验未通过, form.validata都会返回false. 伪代码如下.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">form.validata = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  forEach( fields, <span class="function"><span class="keyword">function</span>(<span class="params"> index, field </span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> ( field.validata() === <span class="literal">false</span>  )&#123;</div><div class="line">       <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="十四-备忘录模式"><a href="#十四-备忘录模式" class="headerlink" title="十四 备忘录模式"></a>十四 备忘录模式</h1><p>备忘录模式在js中经常用于数据缓存. 比如一个分页控件, 从服务器获得某一页的数据后可以存入缓存。以后再翻回这一页的时候，可以直接使用缓存里的数据而无需再次请求服务器。<br>实现比较简单，伪代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Page = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">   <span class="keyword">var</span> page = <span class="number">1</span>,</div><div class="line">      cache = &#123;&#125;,</div><div class="line">      data;</div><div class="line">   <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"> page </span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span> ( cache[ page ] )&#123;</div><div class="line">               data =  cache[ page ];</div><div class="line">               render( data );</div><div class="line">      &#125;<span class="keyword">else</span>&#123;</div><div class="line">               Ajax.send( <span class="string">'cgi.xx.com/xxx'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"> data </span>)</span>&#123;</div><div class="line">                   cache[ page ] = data;</div><div class="line">                   render( data );</div><div class="line">               &#125;)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
+<h1 id="十五-职责链模式"><a href="#十五-职责链模式" class="headerlink" title="十五 职责链模式"></a>十五 职责链模式</h1><p>职责链模式是一个对象A向另一个对象B发起请求，如果B不处理，可以把请求转给C，如果C不处理，又可以把请求转给D。一直到有一个对象愿意处理这个请求为止。</p>
+<p>打个比方，客户让老板写个php程序。老板肯定不写，然后老板交给了部门经理。部门经理不愿意写，又交给项目经理。项目经理不会写，又交给程序员。最后由码农来完成。</p>
+<p>在这个假设里， 有几条职责链模式的特点。</p>
+<p>1 老板只跟部门经理打交道，部门经理只联系项目经理，项目经理只找码农的麻烦。<br>2 如果码农也不写，这个项目将会流产。<br>3 客户并不清楚这个程序最后是由谁写出来的。<br>js中的事件冒泡就是作为一个职责链来实现的。一个事件在某个节点上被触发，然后向根节点传递， 直到被节点捕获。</p>
+<h1 id="十六-享元模式"><a href="#十六-享元模式" class="headerlink" title="十六 享元模式"></a>十六 享元模式</h1><p>享元模式主要用来减少程序所需的对象个数. 有一个例子, 我们这边的前端同学几乎人手一本《javascript权威指南》. 从省钱的角度讲, 大约三本就够了. 放在部门的书柜里, 谁需要看的时候就去拿, 看完了还回去. 如果同时有4个同学需要看, 此时再去多买一本.</p>
+<p>在webqq里面, 打开QQ好友列表往下拉的时候，会为每个好友创建一个div( 如果算上div中的子节点, 还远不只1个元素 ).</p>
+<p>如果有1000个QQ好友, 意味着如果从头拉到尾, 会创建1000个div, 这时候有些浏览器也许已经假死了. 这还只是一个随便翻翻好友列表的操作.</p>
+<p>所以我们想到了一种解决办法, 当滚动条滚动的时候, 把已经消失在视线外的div都删除掉. 这样页面可以保持只有一定数量的节点. 问题是这样频繁的添加与删除节点, 也会造成很大的性能开销, 而且这种感觉很不对味.</p>
+<p>现在享元模式可以登场了. 顾名思义, 享元模式可以提供一些共享的对象以便重复利用. 仔细看下上图, 其实我们一共只需要10个div来显示好友信息,也就是出现在用户视线中的10个div.这10个div就可以写成享元.<br>伪代码如下.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> getDiv = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> created = [];</div><div class="line">    <span class="keyword">var</span> create = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">          <span class="keyword">return</span> <span class="built_in">document</span>.body.appendChild( <span class="built_in">document</span>.createElement( <span class="string">'div'</span> ) );</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> get = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">         <span class="keyword">if</span> ( created.length )&#123;</div><div class="line">              <span class="keyword">return</span> created.shift();</div><div class="line">          &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="keyword">return</span> create();</div><div class="line">           &#125;</div><div class="line">     &#125;</div><div class="line"><span class="comment">/* 一个假设的事件，用来监听刚消失在视线外的div，实际上可以通过监听滚                                     动条位置来实现 */</span></div><div class="line">      userInfoContainer.disappear(<span class="function"><span class="keyword">function</span>(<span class="params"> div </span>)</span>&#123;</div><div class="line">              created.push( div );</div><div class="line">        &#125;)</div><div class="line"> &#125;)()</div><div class="line">  <span class="keyword">var</span> div = getDiv();</div><div class="line">  div.innerHTML = <span class="string">"$&#123;userinfo&#125;"</span>;</div></pre></td></tr></table></figure></p>
+<p>原理其实很简单, 把刚隐藏起来的div放到一个数组中, 当需要div的时候, 先从该数组中取, 如果数组中已经没有了, 再重新创建一个. 这个数组里的div就是享元, 它们每一个都可以当作任何用户信息的载体.</p>
+<p>当然这只是个示例,实际的情况要复杂一些, 比如快速拖动的时候, 我们可能还得为节点设置一个缓冲区.</p>
+<h1 id="十七-状态模式"><a href="#十七-状态模式" class="headerlink" title="十七 状态模式"></a>十七 状态模式</h1><p>状态模式主要可以用于这种场景<br>1 一个对象的行为取决于它的状态<br>2 一个操作中含有庞大的条件分支语句</p>
+<p>回想下街头霸王的游戏。</p>
+<p>隆有走动，攻击，防御，跌倒，跳跃等等多种状态，而这些状态之间既有联系又互相约束。比如跳跃的时候是不能攻击和防御的。跌倒的时候既不能攻击又不能防御，而走动的时候既可以攻击也可以跳跃。</p>
+<p>要完成这样一系列逻辑, 常理下if else是少不了的. 而且数量无法估计, 特别是增加一种新状态的时候, 可能要从代码的第10行一直改到900行.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( state === <span class="string">'jump'</span> )&#123;</div><div class="line">   <span class="keyword">if</span> ( currState === <span class="string">'attack'</span> || currState === <span class="string">'defense'</span> )&#123;</div><div class="line">     <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">   &#125;</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> ( state === <span class="string">'wait'</span> )&#123;</div><div class="line">   <span class="keyword">if</span> ( currState === <span class="string">'attack'</span> || currState === <span class="string">'defense'</span> )&#123;</div><div class="line">     <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为了消灭这些if else, 并且方便修改和维护, 我们引入一个状态类.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> StateManager = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> currState = <span class="string">'wait'</span>;</div><div class="line">  <span class="keyword">var</span> states = &#123;</div><div class="line">    <span class="attr">jump</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> state </span>)</span>&#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">wait</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> state </span>)</span>&#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">attack</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> state </span>)</span>&#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">crouch</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> state </span>)</span>&#123;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">defense</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> state </span>)</span>&#123;</div><div class="line">      <span class="keyword">if</span> ( currState === <span class="string">'jump'</span>  )&#123;</div><div class="line">          <span class="keyword">return</span> <span class="literal">false</span>;  <span class="comment">//不成功，跳跃的时候不能防御</span></div><div class="line">      &#125;</div><div class="line">    <span class="comment">//do something;     //防御的真正逻辑代码, 为了防止状态类的代码过多, 应该把这些逻辑继续扔给真正的fight类来执行.</span></div><div class="line">    currState = <span class="string">'defense'</span>; <span class="comment">//  切换状态</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> changeState = <span class="function"><span class="keyword">function</span>(<span class="params"> state </span>)</span>&#123;</div><div class="line">    states[ state ] &amp;&amp; states[ state ]();</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">changeState</span>  : changeState</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> stateManager = StateManager();</div><div class="line">stateManager.changeState( <span class="string">'defense'</span> );</div></pre></td></tr></table></figure></p>
+<p>通过这个状态类，可以把散落在世界各地的条件分支集中管理到一个类里，并且可以很容易的添加一种新的状态。而作为调用者，只需要通过暴露的changeState接口来切换人物的状态。</p>
+<p>/<strong><strong><strong><strong><strong><strong><em>*</em></strong></strong></strong></strong></strong></strong>分界线1<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/</p>
+<p>GOF提出的23种设计模式，至此已经写完大半。还有一些要么是js里不太适用，要么是js中已有原生自带的实现，所以就没再去深究。这2篇文章里的大部分例子都来自或改写自工作和学习中的代码。我对设计模式的看法是不用刻意去学习设计模式，平时我们接触的很多代码里已经包含了一些设计模式的实现。我的过程是读过prototype和jquery的源码后，回头翻设计模式的书，发现不知觉中已经接触过十之六七。</p>
+<p>同样在实际的编码中也没有必要刻意去使用一些设计模式。就如同tokyo hot 32式一样，在一场友好的papapa过程中，没有必要去刻意使用某种姿势。一切还是看需求和感觉。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/19/redux学习笔记/" rel="prev" title="react-redux学习笔记">
+                react-redux学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/04/20/常用的javascript设计模式/"
+           data-title="常用的javascript设计模式" data-url="http://yoursite.com/2017/04/20/常用的javascript设计模式/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="RuAn" />
+          <p class="site-author-name" itemprop="name">RuAn</p>
+          <p class="site-description motion-element" itemprop="description">我们因为与众不同，而不被周围的人理解。</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ruanhaojian" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-单例模式"><span class="nav-number">1.</span> <span class="nav-text">一 单例模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-简单工厂模式"><span class="nav-number">2.</span> <span class="nav-text">二 简单工厂模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-观察者模式"><span class="nav-number">3.</span> <span class="nav-text">三 观察者模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-适配器模式"><span class="nav-number">4.</span> <span class="nav-text">四 适配器模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-代理模式"><span class="nav-number">5.</span> <span class="nav-text">五 代理模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-桥接模式"><span class="nav-number">6.</span> <span class="nav-text">六 桥接模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七-外观模式"><span class="nav-number">7.</span> <span class="nav-text">七 外观模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八-访问者模式"><span class="nav-number">8.</span> <span class="nav-text">八 访问者模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#九-策略模式"><span class="nav-number">9.</span> <span class="nav-text">九 策略模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十-模版方法模式"><span class="nav-number">10.</span> <span class="nav-text">十 模版方法模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十一-中介者模式"><span class="nav-number">11.</span> <span class="nav-text">十一 中介者模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十二-迭代器模式"><span class="nav-number">12.</span> <span class="nav-text">十二 迭代器模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十三-组合模式"><span class="nav-number">13.</span> <span class="nav-text">十三 组合模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十四-备忘录模式"><span class="nav-number">14.</span> <span class="nav-text">十四 备忘录模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十五-职责链模式"><span class="nav-number">15.</span> <span class="nav-text">十五 职责链模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十六-享元模式"><span class="nav-number">16.</span> <span class="nav-text">十六 享元模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十七-状态模式"><span class="nav-number">17.</span> <span class="nav-text">十七 状态模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RuAn</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ruanhaojian"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

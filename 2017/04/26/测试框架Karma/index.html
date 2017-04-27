@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境 | RuAn</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="测试," />
+  
+
+  <meta name="description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。前端测试相关的还有：Jasmine、Tape、Mocha、chai、Sinon、phantomjs。">
+<meta name="keywords" content="测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境">
+<meta property="og:url" content="http://yoursite.com/2017/04/26/测试框架Karma/index.html">
+<meta property="og:site_name" content="RuAn">
+<meta property="og:description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。前端测试相关的还有：Jasmine、Tape、Mocha、chai、Sinon、phantomjs。">
+<meta property="og:updated_time" content="2017-04-26T08:57:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境">
+<meta name="twitter:description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。前端测试相关的还有：Jasmine、Tape、Mocha、chai、Sinon、phantomjs。">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、安装"><span class="toc-text">一、安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化-Karma"><span class="toc-text">初始化 Karma</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加-ES6-支持"><span class="toc-text">添加 ES6 支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动-Karma"><span class="toc-text">启动 Karma</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-测试框架Karma" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.04.26</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>RuAn</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2017/04/26/测试框架Karma/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。前端测试相关的还有：<code>Jasmine</code>、<code>Tape</code>、<code>Mocha</code>、<code>chai</code>、<code>Sinon</code>、<code>phantomjs</code>。</p>
+<a id="more"></a>
+<p>测试框架、组件介绍</p>
+<p><strong>Karma</strong><br>Karma是一个基于Node.js的JavaScript测试执行过程管理工具（Test Runner）。该工具可用于测试所有主流Web浏览器，也可集成到CI（Continuous integration）工具，也可和其他代码编辑器一起使用。这个测试工具的一个强大特性就是，它可以监控(Watch)文件的变化，然后自行执行，通过console.log显示测试结果。</p>
+<p><strong>mocha</strong><br>mocha是一个基于nodejs和浏览器集合的各种特性的JavaScript测试库，并且让异步测试变得简单，支持TDD(测试驱动开发)和BDD(行为驱动开发)，在测试中捕获到异常时，会给出灵活准确的报告。</p>
+<p><strong>chai</strong><br>chai是一个基于nodejs的断言库，并且完美支持各种主流的JavaScript测试框架。</p>
+<h1 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h1><p>使用 <code>Karma</code> <code>Mocha</code> <code>Chai</code> （启动器、测试框架、断言库）组合。</p>
+<p><code>npm install karma karma-mocha karma-chai --save-dev</code></p>
+<p>如果 npm 版本 &gt;=3.0，会看到如下提示：</p>
+<blockquote>
+<p>UNMET PEER DEPENDENCY chai@<em><br>karma@1.2.0<br>karma-chai@0.1.0<br>karma-mocha@1.1.1<br>UNMET PEER DEPENDENCY mocha@</em></p>
+</blockquote>
+<p>这是因为 npm 已经不再自动安装 peerDependencies：</p>
+<p><a href="http://blog.npmjs.org/post/110924823920/npm-weekly-5" target="_blank" rel="external">We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.</a></p>
+<p>于是继续安装 <code>mocha</code> <code>chai</code><br><code>npm install mocha chai --save-dev</code></p>
+<h2 id="初始化-Karma"><a href="#初始化-Karma" class="headerlink" title="初始化 Karma"></a>初始化 Karma</h2><p><code>karma init</code><br>然后回答一系列问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Which testing framework do you want to use ? Press tab to list possible options. Enter to move to the next question.</div><div class="line">&gt; mocha</div><div class="line"></div><div class="line">Do you want to use Require.js ? This will add Require.js plugin. Press tab to list possible options. Enter to move to the next question.</div><div class="line">&gt; no</div><div class="line"></div><div class="line">Do you want to capture any browsers automatically ? Press tab to list possible options. Enter empty string to move to the next question.</div><div class="line">&gt; Chrome</div><div class="line"></div><div class="line">What is the location of your source and test files ? You can use glob patterns, eg. &quot;js/*.js&quot; or &quot;test/**/*Spec.js&quot;. Enter empty string to move to the next question. &gt; &quot;test/**/*.spec.js&quot; 01 09 2016 16:43:20.743:WARN [init]: There is no file matching this pattern.</div><div class="line"></div><div class="line">&gt;</div><div class="line"></div><div class="line">Should any of the files included by the previous patterns be excluded ? You can use glob patterns, eg. &quot;**/*.swp&quot;. Enter empty string to move to the next question.</div><div class="line">&gt;</div><div class="line"></div><div class="line">Do you want Karma to watch all the files and run the tests on change ? Press tab to list possible options.</div><div class="line">&gt; yes</div></pre></td></tr></table></figure></p>
+<p>然后就可以看到 <code>Karma</code> 已经创建的配置文件 <code>karma.conf.js</code>。如果选择使用 <code>PhantomJS</code>，需要单独安装。</p>
+<p><code>npm install phantomjs --save-dev</code>  并且karma配置中添加 <code>browsers: [&#39;PhantomJS&#39;]</code></p>
+<h2 id="添加-ES6-支持"><a href="#添加-ES6-支持" class="headerlink" title="添加 ES6 支持"></a>添加 ES6 支持</h2><p>现在前端开发的源码一般使用了 ES6 甚至 ES7，将这个处理工作用 webpack 搞定。</p>
+<p><code>npm install karma-webpack --save-dev</code><br>既然将 ES6 的处理交给 webpack，如果之前没有安装过 babel 环境，还需要安装 <code>babel-core</code> <code>babel-preset-es2015</code> 以及 <code>babel-loader</code>。</p>
+<p>如果出现下面的 <code>TypeError</code> 错误，只要在 exclude 中加入 /node_modules/ 就好了。</p>
+<blockquote>
+<p>TypeError: ‘caller’, ‘callee’, and ‘arguments’ properties may not be accessed on strict mode functions or the arguments objects for calls to them</p>
+</blockquote>
+<p>配置文件 <code>karma.conf.js</code> 中，需要注意的还有 <code>files preprocessors</code> 以及 <code>webpack</code> 部分。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Karma configuration</span></div><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">config</span>) </span>&#123;</div><div class="line">  config.set(&#123;</div><div class="line">    <span class="comment">// ......</span></div><div class="line"></div><div class="line">    files: [</div><div class="line">      <span class="string">'test/**/*.spec.js'</span></div><div class="line">    ],</div><div class="line"></div><div class="line">    <span class="attr">preprocessors</span>: &#123;</div><div class="line">      <span class="string">'test/**/*.spec.js'</span>: [<span class="string">'webpack'</span>]</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">webpack</span>: &#123;</div><div class="line">      <span class="attr">resolve</span>: &#123;</div><div class="line">        <span class="attr">root</span>: __dirname + <span class="string">"/src"</span></div><div class="line">      &#125;,</div><div class="line">      <span class="attr">module</span>: &#123;</div><div class="line">        <span class="attr">loaders</span>: [&#123;</div><div class="line">          <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</div><div class="line">          <span class="attr">exclude</span>: [<span class="regexp">/node_modules/</span>, __dirname + <span class="string">"xxx/xxx/lib"</span>],</div><div class="line">          <span class="attr">loader</span>: <span class="string">"babel-loader"</span>,</div><div class="line">          <span class="attr">query</span>: &#123;</div><div class="line">            <span class="attr">compact</span>: <span class="literal">false</span>,</div><div class="line">            <span class="attr">presets</span>: [<span class="string">"es2015"</span>],</div><div class="line">            <span class="attr">plugins</span>: [<span class="string">"es6-promise"</span>]</div><div class="line">          &#125;</div><div class="line">        &#125;]</div><div class="line">      &#125;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="comment">// ......</span></div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="启动-Karma"><a href="#启动-Karma" class="headerlink" title="启动 Karma"></a>启动 Karma</h2><p>编写测试用例，这里是一个使用断言库 <code>Chai</code>，并使用它的 <code>expect</code> 断言风格的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;getMoneyText&#125; <span class="keyword">from</span> <span class="string">"xxx/xxx.js"</span>;</div><div class="line"><span class="keyword">import</span> &#123;expect&#125; <span class="keyword">from</span> <span class="string">"chai"</span>;</div><div class="line"></div><div class="line">describe(<span class="string">"生成价格文案"</span>, () =&gt; &#123;</div><div class="line">  it(<span class="string">"价格文案：积分"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">1</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"100积分"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">2</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥100.00"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币+积分"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">3</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥100.00+100积分"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币+积分（多份数量）"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">3</span>,</div><div class="line">      <span class="attr">number</span>: <span class="number">5</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥500.00+500积分"</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>启动 <code>Karma</code></p>
+<p><code>karma start</code><br>关于 Mocha （Chai, expect）的入门教程可以参考：<a href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html" target="_blank" rel="external">测试框架 Mocha 实例教程</a></p>
+<blockquote>
+<p>参考 <a href="http://www.ituring.com.cn/article/264451?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境</a></p>
+</blockquote>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="hide pull-left" href="/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/04/20/常用的javascript设计模式/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'forsigner';
+    
+    var disqus_url = 'http://yoursite.com/2017/04/26/测试框架Karma/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//forsigner.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

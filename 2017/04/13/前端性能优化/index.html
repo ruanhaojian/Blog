@@ -24,7 +24,7 @@
 <meta property="og:description" content="前端性能优化笔记">
 <meta property="og:image" content="http://yoursite.com/2017/04/13/前端性能优化/R1.GIF">
 <meta property="og:image" content="http://yoursite.com/2017/04/13/前端性能优化/R2.GIF">
-<meta property="og:updated_time" content="2017-04-19T07:50:54.000Z">
+<meta property="og:updated_time" content="2017-04-28T08:27:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端性能优化">
 <meta name="twitter:description" content="前端性能优化笔记">
@@ -215,7 +215,7 @@
     
       <p>前端性能优化笔记</p>
 <a id="more"></a>
-<h1 id="性能优化核心关注点"><a href="#性能优化核心关注点" class="headerlink" title="性能优化核心关注点"></a>性能优化核心关注点</h1><p>对普通的网站有一个统一的思路，就是尽量向前端优化、减少数据库操作、减少磁盘IO。<br>向前端优化指的是，在不影响功能和体验的情况下，能在浏览器执行的不要在服务端执行，能在缓存服务器上直接返回的不要到应用服务器，程序能直接取得的结果不要到外部取得，本机内能取得的数据不要到远程取，内存能取到的不要到磁盘取，缓存中有的不要去数据库查询。<br>减少数据库操作指减少更新次数、缓存结果减少查询次数、将数据库执行的操作尽可能的让你的程序完成（例如join查询），减少磁盘IO指尽量不使用文件系统作为缓存、减少读写文件次数等。程序优化永远要优化慢的部分，换语言是无法“优化”的。</p>
+<h1 id="性能优化核心关注点"><a href="#性能优化核心关注点" class="headerlink" title="性能优化核心关注点"></a>性能优化核心关注点</h1><p>对普通的网站有一个统一的思路，就是尽量向<strong>前端优化、减少数据库操作、减少磁盘IO</strong>。<br>向前端优化指的是，在不影响功能和体验的情况下，能在浏览器执行的不要在服务端执行，能在缓存服务器上直接返回的不要到应用服务器，程序能直接取得的结果不要到外部取得，本机内能取得的数据不要到远程取，内存能取到的不要到磁盘取，缓存中有的不要去数据库查询。<br>减少数据库操作指减少更新次数、缓存结果减少查询次数、将数据库执行的操作尽可能的让你的程序完成（例如join查询），减少磁盘IO指尽量不使用文件系统作为缓存、减少读写文件次数等。程序优化永远要优化慢的部分，换语言是无法“优化”的。</p>
 <h1 id="图片优化"><a href="#图片优化" class="headerlink" title="图片优化"></a>图片优化</h1><h2 id="CSS代替图片"><a href="#CSS代替图片" class="headerlink" title="CSS代替图片"></a>CSS代替图片</h2><p>直接使用CSS替代图片来实现修饰效果吧！如半透明、边框、圆角、阴影、渐变等，在当前主流浏览器中都可以用CSS达成。将来CSS滤镜得到广泛支持后，还可以做到alpha混合、正片叠底等各种效果。</p>
 <h2 id="使用矢量图替代位图"><a href="#使用矢量图替代位图" class="headerlink" title="使用矢量图替代位图"></a>使用矢量图替代位图</h2><p>对于绝大多数图案、图标等，矢量图更小，且可缩放而无需生成多套图。现在主流浏览器都支持SVG了，所以可放心使用！</p>
 <h2 id="使用data-url"><a href="#使用data-url" class="headerlink" title="使用data url"></a>使用data url</h2><p>资源内嵌于CSS或HTML中，而不必单独请求。注意，多个地方都要使用的资源不一定适合用此优化方式，因为图片数据重复多了，增加流量。另外许多浏览器对data url有长度限制，注意资源的大小。</p>
@@ -246,7 +246,7 @@
 <ol>
 <li>PHP转换<br>2.photoshop中有个“存储为web所用格式”，连续勾选就是渐进式JPEG图片</li>
 </ol>
-<h1 id="CSS优化"><a href="#CSS优化" class="headerlink" title="CSS优化"></a>CSS优化</h1><h2 id="CSS-优化主要是四个方面："><a href="#CSS-优化主要是四个方面：" class="headerlink" title="CSS 优化主要是四个方面："></a>CSS 优化主要是四个方面：</h2><p><strong>加载性能</strong><br>这个方面相关的 best practice 太多了，网上随便找一找就是一堆资料，比如不要用 import 、多用继承熟悉啊，压缩啊等等，主要是从减少文件体积、减少阻塞加载、提高并发方面入手的，任何 hint 都逃不出这几个大方向。<br><strong>选择器性能</strong><br>可以参考 GitHub 的这个分享 <a href="https://speakerdeck.com/jonrohan/githubs-css-performance，但" target="_blank" rel="external">https://speakerdeck.com/jonrohan/githubs-css-performance，但</a> selector 的对整体性能的影响可以忽略不计了，selector 的考察更多是规范化和可维护性、健壮性方面，很少有人在实际工作当中会把选择器性能作为重点关注对象的，但也像 GitHub 这个分享里面说的一样——知道总比不知道好。<br><strong>渲染性能</strong><br>渲染性能是 CSS 优化最重要的关注对象。页面渲染 junky 过多？看看是不是大量使用了 text-shadow？是不是开了字体抗锯齿？CSS 动画怎么实现的？合理利用 GPU 加速了吗？什么你用了 Flexible Box Model？有没有测试换个 layout 策略对 render performance 的影响？这个方面搜索一下 CSS render performance 或者 CSS animation performance 也会有一堆一堆的资料可供参考。<br><strong>可维护性、健壮性</strong><br>命名合理吗？结构层次设计是否足够健壮？对样式进行抽象复用了吗？优雅的 CSS 不仅仅会影响后期的维护成本，也会对加载性能等方面产生影响。这方面可以多找一些 OOCSS（不是说就要用 OOCSS，而是说多了解一下）等等不同 CSS Strategy 的信息，取长补短。</p>
+<h1 id="CSS优化"><a href="#CSS优化" class="headerlink" title="CSS优化"></a>CSS优化</h1><h2 id="CSS-优化主要是四个方面："><a href="#CSS-优化主要是四个方面：" class="headerlink" title="CSS 优化主要是四个方面："></a>CSS 优化主要是四个方面：</h2><p><strong>加载性能</strong><br>这个方面相关的 best practice 太多了，网上随便找一找就是一堆资料，比如不要用 import 、多用继承熟悉啊，压缩啊等等，主要是从减少文件体积、减少阻塞加载、提高并发方面入手的，任何 hint 都逃不出这几个大方向。<br><strong>选择器性能</strong><br>可以参考 GitHub 的这个分享 <a href="https://speakerdeck.com/jonrohan/githubs-css-performance，但" target="_blank" rel="external">https://speakerdeck.com/jonrohan/githubs-css-performance，但</a> selector 的对整体性能的影响可以忽略不计了，selector 的考察更多是规范化和可维护性、健壮性方面，很少有人在实际工作当中会把选择器性能作为重点关注对象的，但也像 GitHub 这个分享里面说的一样——知道总比不知道好。<br><strong>渲染性能</strong><br>渲染性能是 CSS 优化最重要的关注对象。页面渲染 junky 过多？看看是不是大量使用了 text-shadow？是不是开了字体抗锯齿？CSS 动画怎么实现的？合理利用 GPU 加速了吗？什么你用了 Flexible Box Model？有没有测试换个 layout 策略对 render performance 的影响？这个方面搜索一下 CSS render performance 或者 <a href="http://www.w3cplus.com/animation/animation-performance.html" target="_blank" rel="external">CSS animation performance</a> 也会有一堆一堆的资料可供参考。<br><strong>可维护性、健壮性</strong><br>命名合理吗？结构层次设计是否足够健壮？对样式进行抽象复用了吗？优雅的 CSS 不仅仅会影响后期的维护成本，也会对加载性能等方面产生影响。这方面可以多找一些 OOCSS（不是说就要用 OOCSS，而是说多了解一下）等等不同 CSS Strategy 的信息，取长补短。</p>
 <h2 id="Css-Lint提到的规则"><a href="#Css-Lint提到的规则" class="headerlink" title="Css Lint提到的规则"></a>Css Lint提到的规则</h2><p><strong><em>修复解析错误（Parsing errors should be fixed）</em></strong><br>避免使用多类选择符（Don’t use adjoining classes）<br>IE6以及更古老的浏览器对类似.foo.bar的多类选择符解析不正确，参考IE6下的多类选择符一文。 </p>
 <p><strong><em>移除空的css规则（Remove empty rules）</em></strong><br>这个规则不包含任何属性，类似：.foo { }空规则的产生原因一般来说是为了预留样式。去除这些空规则无疑能减少css文档体积。 </p>
 <p><strong><em>正确使用display的属性（Use correct properties for a display）</em></strong><br>由于display的作用，某些样式组合会无效，徒增样式体积的同时也影响解析性能。CSS Lint会检查一下几点：<br>display:inline后不应该再使用width、height、margin、padding以及float。<br>display:inline-block后不应该再使用float。<br>display:block后不应该再使用vertical-align。<br>display:table-*后不应该再使用margin或者float。 </p>

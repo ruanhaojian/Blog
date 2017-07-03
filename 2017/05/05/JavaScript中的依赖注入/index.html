@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>细数Javascript技术栈中的四种依赖注入 | RuAn</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="javascript," />
+  
+
+  <meta name="description" content="作为面向对象编程中实现控制反转（Inversion of Control，下文称IoC）最常见的技术手段之一，依赖注入（Dependency Injection，下文称DI）可谓在OOP编程中大行其道经久不衰。比如在J2EE中，就有大名鼎鼎的执牛耳者Spring。Javascript社区中自然也不乏一些积极的尝试，广为人知的AngularJS很大程度上就是基于DI实现的。遗憾的是，作为一款缺少反射">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="细数Javascript技术栈中的四种依赖注入">
+<meta property="og:url" content="http://yoursite.com/2017/05/05/JavaScript中的依赖注入/index.html">
+<meta property="og:site_name" content="RuAn">
+<meta property="og:description" content="作为面向对象编程中实现控制反转（Inversion of Control，下文称IoC）最常见的技术手段之一，依赖注入（Dependency Injection，下文称DI）可谓在OOP编程中大行其道经久不衰。比如在J2EE中，就有大名鼎鼎的执牛耳者Spring。Javascript社区中自然也不乏一些积极的尝试，广为人知的AngularJS很大程度上就是基于DI实现的。遗憾的是，作为一款缺少反射">
+<meta property="og:image" content="http://yoursite.com/2017/05/05/JavaScript中的依赖注入/1.png">
+<meta property="og:updated_time" content="2017-05-05T03:28:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="细数Javascript技术栈中的四种依赖注入">
+<meta name="twitter:description" content="作为面向对象编程中实现控制反转（Inversion of Control，下文称IoC）最常见的技术手段之一，依赖注入（Dependency Injection，下文称DI）可谓在OOP编程中大行其道经久不衰。比如在J2EE中，就有大名鼎鼎的执牛耳者Spring。Javascript社区中自然也不乏一些积极的尝试，广为人知的AngularJS很大程度上就是基于DI实现的。遗憾的是，作为一款缺少反射">
+<meta name="twitter:image" content="http://yoursite.com/2017/05/05/JavaScript中的依赖注入/1.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/categories/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tags/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-基于Injector、Cache和函数参数名的依赖注入"><span class="toc-text">一. 基于Injector、Cache和函数参数名的依赖注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三-TypeScript中基于装饰器和反射的依赖注入"><span class="toc-text">三. TypeScript中基于装饰器和反射的依赖注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四-inversify-js——Javascript技术栈中的IoC容器"><span class="toc-text">四. inversify.js——Javascript技术栈中的IoC容器</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript中的依赖注入" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">细数Javascript技术栈中的四种依赖注入</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.05</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>RuAn</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.forsigner.com/2017/05/05/JavaScript中的依赖注入/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作为面向对象编程中实现控制反转（Inversion of Control，下文称IoC）最常见的技术手段之一，依赖注入（Dependency Injection，下文称DI）可谓在OOP编程中大行其道经久不衰。比如在J2EE中，就有大名鼎鼎的执牛耳者Spring。Javascript社区中自然也不乏一些积极的尝试，广为人知的AngularJS很大程度上就是基于DI实现的。遗憾的是，作为一款缺少反射机制、不支持Annotation语法的动态语言，Javascript长期以来都没有属于自己的Spring框架。当然，伴随着ECMAScript草案进入快速迭代期的春风，Javascript社区中的各种方言、框架可谓群雄并起，方兴未艾。可以预见到，优秀的JavascriptDI框架的出现只是早晚的事。</p>
+<p>本文总结了Javascript中常见的依赖注入方式，并以inversify.js为例，介绍了方言社区对于Javascript中DI框架的尝试和初步成果。文章分为四节：</p>
+<p>一. 基于Injector、Cache和函数参数名的依赖注入<br>二. AngularJS中基于双Injector的依赖注入<br>三. TypeScript中基于装饰器和反射的依赖注入<br>四. inversify.js——Javascript技术栈中的IoC容器</p>
+<h1 id="一-基于Injector、Cache和函数参数名的依赖注入"><a href="#一-基于Injector、Cache和函数参数名的依赖注入" class="headerlink" title="一. 基于Injector、Cache和函数参数名的依赖注入"></a>一. 基于Injector、Cache和函数参数名的依赖注入</h1><p>尽管Javascript中不原生支持反射(Reflection)语法，但是Function.prototype上的toString方法却为我们另辟蹊径，使得在运行时窥探某个函数的内部构造成为可能：toString方法会以字符串的形式返回包含function关键字在内的整个函数定义。从这个完整的函数定义出发，我们可以利用正则表达式提取出该函数所需要的参数，从而在某种程度上得知该函数的运行依赖。<br>比如Student类上write方法的函数签名write(notebook, pencil)就说明它的执行依赖于notebook和pencil对象。因此，我们可以首先把notebook和pencil对象存放到某个cache中，再通过injector（注入器、注射器）向write方法提供它所需要的依赖：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> cache = &#123;&#125;;</div><div class="line"><span class="comment">// 通过解析Function.prototype.toString()取得参数名</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getParamNames</span>(<span class="params">func</span>) </span>&#123;</div><div class="line">    <span class="comment">// 正则表达式出自http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript</span></div><div class="line">    <span class="keyword">var</span> paramNames = func.toString().match(<span class="regexp">/^function\s*[^\(]*\(\s*([^\)]*)\)/m</span>)[<span class="number">1</span>];</div><div class="line">    paramNames = paramNames.replace(<span class="regexp">/ /g</span>, <span class="string">''</span>);</div><div class="line">    paramNames = paramNames.split(<span class="string">','</span>);</div><div class="line">    <span class="keyword">return</span> paramNames;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> injector = &#123;</div><div class="line">    <span class="comment">// 将func作用域中的this关键字绑定到bind对象上，bind对象可以为空</span></div><div class="line">    resolve: <span class="function"><span class="keyword">function</span> (<span class="params">func, bind</span>) </span>&#123;</div><div class="line">        <span class="comment">// 取得参数名</span></div><div class="line">        <span class="keyword">var</span> paramNames = getParamNames(func);</div><div class="line">        <span class="keyword">var</span> params = [];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; paramNames.length; i++) &#123;</div><div class="line">            <span class="comment">// 通过参数名在cache中取出相应的依赖</span></div><div class="line">            params.push(cache[paramNames[i]]);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 注入依赖并执行函数</span></div><div class="line">        func.apply(bind, params);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Notebook</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">Notebook.prototype.printName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'this is a notebook'</span>);</div><div class="line">&#125;;</div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Pencil</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">Pencil.prototype.printName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'this is a pencil'</span>);</div><div class="line">&#125;;</div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Student</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">Student.prototype.write = <span class="function"><span class="keyword">function</span> (<span class="params">notebook, pencil</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!notebook || !pencil) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Dependencies not provided!'</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'writing...'</span>);</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 提供notebook依赖</span></div><div class="line">cache[<span class="string">'notebook'</span>] = <span class="keyword">new</span> Notebook();</div><div class="line"><span class="comment">// 提供pencil依赖</span></div><div class="line">cache[<span class="string">'pencil'</span>] = <span class="keyword">new</span> Pencil();</div><div class="line"><span class="keyword">var</span> student = <span class="keyword">new</span> Student();</div><div class="line">injector.resolve(student.write, student); <span class="comment">// writing...</span></div></pre></td></tr></table></figure>
+<p>有时候为了保证良好的封装性，也不一定要把cache对象暴露给外界作用域，更多的时候是以闭包变量或者私有属性的形式存在的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Injector</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>._cache = &#123;&#125;;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">Injector.prototype.put = <span class="function"><span class="keyword">function</span> (<span class="params">name, obj</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>._cache[name] = obj;</div><div class="line">&#125;;</div><div class="line"> </div><div class="line">Injector.prototype.getParamNames = <span class="function"><span class="keyword">function</span> (<span class="params">func</span>) </span>&#123;</div><div class="line">    <span class="comment">// 正则表达式出自http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript</span></div><div class="line">    <span class="keyword">var</span> paramNames = func.toString().match(<span class="regexp">/^function\s*[^\(]*\(\s*([^\)]*)\)/m</span>)[<span class="number">1</span>];</div><div class="line">    paramNames = paramNames.replace(<span class="regexp">/ /g</span>, <span class="string">''</span>);</div><div class="line">    paramNames = paramNames.split(<span class="string">','</span>);</div><div class="line">    <span class="keyword">return</span> paramNames;</div><div class="line">&#125;;</div><div class="line"> </div><div class="line">Injector.prototype.resolve = <span class="function"><span class="keyword">function</span> (<span class="params">func, bind</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">    <span class="keyword">var</span> paramNames = self.getParamNames(func);</div><div class="line">    <span class="keyword">var</span> params = paramNames.map(<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> self._cache[name];</div><div class="line">    &#125;);</div><div class="line">    func.apply(bind, params);</div><div class="line">&#125;;</div><div class="line"> </div><div class="line"><span class="keyword">var</span> injector = <span class="keyword">new</span> Injector();</div><div class="line"> </div><div class="line"><span class="keyword">var</span> student = <span class="keyword">new</span> Student();</div><div class="line">injector.put(<span class="string">'notebook'</span>, <span class="keyword">new</span> Notebook());</div><div class="line">injector.put(<span class="string">'pencil'</span>, <span class="keyword">new</span> Pencil())</div><div class="line">injector.resolve(student.write, student); <span class="comment">// writing...</span></div></pre></td></tr></table></figure>
+<p>比如现在要执行Student类上的另一个方法function draw(notebook, pencil, eraser)，因为injector的cache中已经有了notebook和pencil对象，我们只需要将额外的eraser也存放到cache中：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Eraser</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">Eraser.prototype.printName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'this is an eraser'</span>);</div><div class="line">&#125;;</div><div class="line"> </div><div class="line"><span class="comment">// 为Student增加draw方法</span></div><div class="line">Student.prototype.draw = <span class="function"><span class="keyword">function</span> (<span class="params">notebook, pencil, eraser</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!notebook || !pencil || !eraser) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Dependencies not provided!'</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'drawing...'</span>);</div><div class="line">&#125;;</div><div class="line"> </div><div class="line">injector.put(<span class="string">'eraser'</span>, <span class="keyword">new</span> Eraser());</div><div class="line">injector.resolve(student.draw, student);</div></pre></td></tr></table></figure>
+<p>通过依赖注入，函数的执行和其所依赖对象的创建逻辑就被解耦开来了。<br>当然，随着grunt/gulp/fis等前端工程化工具的普及，越来越多的项目在上线之前都经过了代码混淆(uglify)，因而通过参数名去判断依赖并不总是可靠，有时候也会通过为function添加额外属性的方式来明确地说明其依赖：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Student.prototype.write.depends = [<span class="string">'notebook'</span>, <span class="string">'pencil'</span>];</div><div class="line">Student.prototype.draw.depends = [<span class="string">'notebook'</span>, <span class="string">'pencil'</span>, <span class="string">'eraser'</span>];</div><div class="line">Injector.prototype.resolve = <span class="function"><span class="keyword">function</span> (<span class="params">func, bind</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">    <span class="comment">// 首先检查func上是否有depends属性，如果没有，再用正则表达式解析</span></div><div class="line">    func.depends = func.depends || self.getParamNames(func);</div><div class="line">    <span class="keyword">var</span> params = func.depends.map(<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> self._cache[name];</div><div class="line">    &#125;);</div><div class="line">    func.apply(bind, params);</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> student = <span class="keyword">new</span> Student();</div><div class="line">injector.resolve(student.write, student); <span class="comment">// writing...</span></div><div class="line">injector.resolve(student.draw, student); <span class="comment">// draw...</span></div></pre></td></tr></table></figure>
+<p>二. AngularJS中基于双Injector的依赖注入</p>
+<p>熟悉AngularJS的同学很快就能联想到，在injector注入之前，我们在定义module时还可以调用config方法来配置随后会被注入的对象。典型的例子就是在使用路由时对$routeProvider的配置。也就是说，不同于上一小节中直接将现成对象（比如new Notebook()）存入cache的做法，AngularJS中的依赖注入应该还有一个”实例化”或者”调用工厂方法”的过程。<br>这就是providerInjector、instanceInjector以及他们各自所拥有的providerCache和instanceCache的由来。<br>在AngularJS中，我们能够通过依赖注入获取到的injector通常是instanceInjector，而providerInjector则是以闭包中变量的形式存在的。每当我们需要AngularJS提供依赖注入服务时，比如想要获取notebook，instanceInjector会首先查询instanceCache上是存在notebook属性，如果存在，则直接注入；如果不存在，则将这个任务转交给providerInjector；providerInjector会将”Provider”字符串拼接到”notebook”字符串的后面，组成一个新的键名”notebookProvider”，再到providerCache中查询是否有notebookProvider这个属性，如有没有，则抛出异常Unknown Provider异常：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Error: [$injector:unpr] Unknow provider: notebookProvider &lt;- notebook &lt;- myCtrl</div></pre></td></tr></table></figure>
+<p>如果有，则将这个provider返回给instanceInjector；instanceInjector拿到notebookProvider后，会调用notebookProvider上的工厂方法$get，获取返回值notebook对象，将该对象放到instanceCache中以备将来使用，同时也注入到一开始声明这个依赖的函数中。过程描述起来比较复杂，可以通过下面的图示来说明：</p>
+<p><img src="./1.png" alt=""></p>
+<p>需要注意的是，AngularJS中的依赖注入方式也是有缺陷的：利用一个instanceInjector单例服务全局的副作用就是无法单独跟踪和控制某一条依赖链条，即使在没有交叉依赖的情况下，不同module中的同名provider也会产生覆盖，这里就不详细展开了。</p>
+<p>另外，对于习惯于Java和C#等语言中高级IoC容器的同学来说，看到这里可能觉得有些别扭，毕竟在OOP中，我们通常不会将依赖以参数的形式传递给方法，而是作为属性通过constructor或者setters传递给实例，以实现封装。的确如此，一、二节中的依赖注入方式没有体现出足够的面向对象特性，毕竟这种方式在Javascript已经存在多年了，甚至都不需要ES5的语法支持。希望了解Javascript社区中最近一两年关于依赖注入的研究和成果的同学，可以继续往下阅读。</p>
+<h1 id="三-TypeScript中基于装饰器和反射的依赖注入"><a href="#三-TypeScript中基于装饰器和反射的依赖注入" class="headerlink" title="三. TypeScript中基于装饰器和反射的依赖注入"></a>三. TypeScript中基于装饰器和反射的依赖注入</h1><p>博主本身对于Javascript的各种方言的学习并不是特别热情，尤其是现在EMCAScript提案、草案更新很快，很多时候借助于polyfill和babel的各种preset就能满足需求了。但是TypeScript是一个例外（当然现在Decorator也已经是提案了，虽然阶段还比较早，但是确实已经有polyfill可以使用）。上文提到，Javascript社区中迟迟没有出现一款优秀的IoC容器和自身的语言特性有关，那就依赖注入这个话题而言，TypeScript给我们带来了什么不同呢？至少有下面这几点：</p>
+<ul>
+<li>TypeScript增加了编译时类型检查，使Javascript具备了一定的静态语言特性</li>
+<li>TypeScript支持装饰器（Decorator）语法，和传统的注解（Annotation）颇为相似</li>
+<li>TypeScript支持元信息（Metadata）反射，不再需要调用Function.prototype.toString方法<br>下面我们就尝试利用TypeScript带来的新语法来规范和简化依赖注入。这次我们不再向函数或方法中注入依赖了，而是向类的构造函数中注入。<br>TypeScript支持对类、方法、属性和函数参数进行装饰，这里需要用到的是对类的装饰。继续上面小节中用到的例子，利用TypeScript对代码进行一些重构：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pencil</span> </span>&#123;</div><div class="line">    public printName() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'this is a pencil'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Eraser</span> </span>&#123;</div><div class="line">    public printName() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'this is an eraser'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Notebook</span> </span>&#123;</div><div class="line">    public printName() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'this is a notebook'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</div><div class="line">    pencil: Pencil;</div><div class="line">    eraser: Eraser;</div><div class="line">    notebook: Notebook;</div><div class="line">    public <span class="keyword">constructor</span>(notebook: Notebook, pencil: Pencil, eraser: Eraser) &#123;</div><div class="line">        <span class="keyword">this</span>.notebook = notebook;</div><div class="line">        <span class="keyword">this</span>.pencil = pencil;</div><div class="line">        <span class="keyword">this</span>.eraser = eraser;</div><div class="line">    &#125;</div><div class="line">    public write() &#123;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.notebook || !<span class="keyword">this</span>.pencil) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Dependencies not provided!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'writing...'</span>);</div><div class="line">    &#125;</div><div class="line">    public draw() &#123;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.notebook || !<span class="keyword">this</span>.pencil || !<span class="keyword">this</span>.eraser) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Dependencies not provided!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'drawing...'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面是injector和装饰器Inject的实现。injector的resolve方法在接收到传入的构造函数时，会通过name属性取出该构造函数的名字，比如class Student，它的name属性就是字符串”Student”。再将Student作为key，到dependenciesMap中去取出Student的依赖，至于dependenciesMap中是何时存入的依赖关系，这是装饰器Inject的逻辑，后面会谈到。Student的依赖取出后，由于这些依赖已经是构造函数的引用而非简单的字符串了（比如Notebook、Pencil的构造函数），因此直接使用new语句即可获取这些对象。获取到Student类所依赖的对象之后，如何把这些依赖作为构造函数的参数传入到Student中呢？最简单的莫过于ES6的spread操作符。在不能使用ES6的环境下，我们也可以通过伪造一个构造函数来完成上述逻辑。注意为了使instanceof操作符不失效，这个伪造的构造函数的prototype属性应该指向原构造函数的prototype属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dependenciesMap = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> injector = &#123;</div><div class="line">    <span class="attr">resolve</span>: <span class="function"><span class="keyword">function</span> (<span class="params">constructor</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> dependencies = dependenciesMap[<span class="keyword">constructor</span>.name];</div><div class="line">        dependencies = dependencies.map(function (dependency) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> dependency();</div><div class="line">        &#125;);</div><div class="line">        <span class="comment">// 如果可以使用ES6的语法，下面的代码可以合并为一行：</span></div><div class="line">        <span class="comment">// return new constructor(...dependencies);</span></div><div class="line">        <span class="keyword">var</span> mockConstructor: any = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">constructor</span>.apply(this, dependencies);</div><div class="line">        &#125;;</div><div class="line">        mockConstructor.prototype = <span class="keyword">constructor</span>.prototype;</div><div class="line">        return new mockConstructor();</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">function Inject(...dependencies) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">constructor</span>) </span>&#123;</div><div class="line">        dependenciesMap[<span class="keyword">constructor</span>.name] = dependencies;</div><div class="line">        return <span class="keyword">constructor</span>;</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>injector和装饰器Inject的逻辑完成后，就可以用来装饰class Student并享受依赖注入带来的乐趣了：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 装饰器的使用非常简单，只需要在类定义的上方添加一行代码</span></div><div class="line"><span class="comment">// Inject是装饰器的名字，后面是function Inject的参数</span></div><div class="line">@Inject(Notebook, Pencil, Eraser)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</div><div class="line">    pencil: Pencil;</div><div class="line">    eraser: Eraser;</div><div class="line">    notebook: Notebook;</div><div class="line">    public <span class="keyword">constructor</span>(notebook: Notebook, pencil: Pencil, eraser: Eraser) &#123;</div><div class="line">        <span class="keyword">this</span>.notebook = notebook;</div><div class="line">        <span class="keyword">this</span>.pencil = pencil;</div><div class="line">        <span class="keyword">this</span>.eraser = eraser;</div><div class="line">    &#125;</div><div class="line">    public write() &#123;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.notebook || !<span class="keyword">this</span>.pencil) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Dependencies not provided!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'writing...'</span>);</div><div class="line">    &#125;</div><div class="line">    public draw() &#123;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.notebook || !<span class="keyword">this</span>.pencil || !<span class="keyword">this</span>.eraser) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Dependencies not provided!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'drawing...'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> student = injector.resolve(Student);</div><div class="line"><span class="built_in">console</span>.log(student <span class="keyword">instanceof</span> Student); <span class="comment">// true</span></div><div class="line">student.notebook.printName(); <span class="comment">// this is a notebook</span></div><div class="line">student.pencil.printName(); <span class="comment">// this is a pencil</span></div><div class="line">student.eraser.printName(); <span class="comment">// this is an eraser</span></div><div class="line">student.draw(); <span class="comment">// drawing</span></div><div class="line">student.write(); <span class="comment">// writing</span></div></pre></td></tr></table></figure></p>
+<p>利用装饰器，我们还可以实现一种比较激进的依赖注入，下文称之为RadicalInject。RadicalInject对原代码的侵入性比较强，不一定适合具体的业务，这里也一并介绍一下。要理解RadicalInject，需要对TypeScript装饰器的原理和Array.prototype上的reduce方法理解比较到位。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">RadicalInject</span>(<span class="params">...dependencies</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> wrappedFunc:any = <span class="function"><span class="keyword">function</span> (<span class="params">target: any</span>) </span>&#123;</div><div class="line">        dependencies = dependencies.map(<span class="function"><span class="keyword">function</span> (<span class="params">dependency</span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> dependency();</div><div class="line">        &#125;);</div><div class="line">        <span class="comment">// 使用mockConstructor的原因和上例相同</span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">mockConstructor</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            target.apply(<span class="keyword">this</span>, dependencies);</div><div class="line">        &#125;</div><div class="line">        mockConstructor.prototype = target.prototype;</div><div class="line"> </div><div class="line">        <span class="comment">// 为什么需要使用reservedConstructor呢？因为使用RadicalInject对Student方法装饰之后，</span></div><div class="line">        <span class="comment">// Student指向的构造函数已经不是一开始我们声明的class Student了，而是这里的返回值，</span></div><div class="line">        <span class="comment">// 即reservedConstructor。Student的指向变了并不是一件不能接受的事，但是如果要</span></div><div class="line">        <span class="comment">// 保证student instanceof Student如我们所期望的那样工作，这里就应该将</span></div><div class="line">        <span class="comment">// reservedConstructor的prototype属性指向原Student的prototype</span></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">reservedConstructor</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> mockConstructor();</div><div class="line">        &#125;</div><div class="line">        reservedConstructor.prototype = target.prototype;</div><div class="line">        <span class="keyword">return</span> reservedConstructor;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> wrappedFunc;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用RadicalInject，原构造函数实质上已经被一个新的函数代理了，使用上也更为简单，甚至都不需要再有injector的实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">@RadicalInject(Notebook, Pencil, Eraser)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</div><div class="line">    pencil: Pencil;</div><div class="line">    eraser: Eraser;</div><div class="line">    notebook: Notebook;</div><div class="line">    public <span class="keyword">constructor</span>() &#123;&#125;</div><div class="line">    public <span class="keyword">constructor</span>(notebook: Notebook, pencil: Pencil, eraser: Eraser) &#123;</div><div class="line">        <span class="keyword">this</span>.notebook = notebook;</div><div class="line">        <span class="keyword">this</span>.pencil = pencil;</div><div class="line">        <span class="keyword">this</span>.eraser = eraser;</div><div class="line">    &#125;</div><div class="line">    public write() &#123;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.notebook || !<span class="keyword">this</span>.pencil) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Dependencies not provided!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'writing...'</span>);</div><div class="line">    &#125;</div><div class="line">    public draw() &#123;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.notebook || !<span class="keyword">this</span>.pencil || !<span class="keyword">this</span>.eraser) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Dependencies not provided!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'drawing...'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 不再出现injector，直接调用构造函数</span></div><div class="line"><span class="keyword">var</span> student = <span class="keyword">new</span> Student();</div><div class="line"><span class="built_in">console</span>.log(student <span class="keyword">instanceof</span> Student); <span class="comment">// true</span></div><div class="line">student.notebook.printName(); <span class="comment">// this is a notebook</span></div><div class="line">student.pencil.printName(); <span class="comment">// this is a pencil</span></div><div class="line">student.eraser.printName(); <span class="comment">// this is an eraser</span></div><div class="line">student.draw(); <span class="comment">// drawing</span></div><div class="line">student.write(); <span class="comment">// writing</span></div></pre></td></tr></table></figure></p>
+<p>由于class Student的constructor方法需要接收三个参数，直接无参调用new Student()会造成TypeScript编译器报错。当然这里只是分享一种思路，大家可以暂时忽略这个错误。有兴趣的同学也可以使用类似的思路尝试代理一个工厂方法，而非直接代理构造函数，以避免这类错误，这里不再展开。</p>
+<p>AngularJS2团队为了获得更好的装饰器和反射语法的支持，一度准备另起炉灶，基于AtScript（AtScript中的”A”指的就是Annotation）来进行新框架的开发。但最终却选择拥抱TypeScript，于是便有了微软和谷歌的奇妙组合。</p>
+<p>当然，需要说明的是，在缺少相关标准和浏览器厂商支持的情况下，TypeScript在运行时只是纯粹的Javascript，下节中出现的例子会印证这一点。</p>
+<h1 id="四-inversify-js——Javascript技术栈中的IoC容器"><a href="#四-inversify-js——Javascript技术栈中的IoC容器" class="headerlink" title="四. inversify.js——Javascript技术栈中的IoC容器"></a>四. inversify.js——Javascript技术栈中的IoC容器</h1><p>其实从Javascript出现各种支持高级语言特性的方言就可以预见到，IoC容器的出现只是早晚的事情。比如博主今天要介绍的基于TypeScript的inversify.js，就是其中的先行者之一。<br>inversity.js比上节中博主实现的例子还要进步很多，它最初设计的目的就是为了前端工程师同学们能在Javascript中写出符合SOLID原则的代码，立意可谓非常之高。表现在代码中，就是处处有接口，将”Depend upon Abstractions. Do not depend upon concretions.”（依赖于抽象，而非依赖于具体）表现地淋漓尽致。继续使用上面的例子，但是由于inversity.js是面向接口的，上面的代码需要进一步重构：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">interface NotebookInterface &#123;</div><div class="line">    printName(): <span class="keyword">void</span>;</div><div class="line">&#125;</div><div class="line">interface PencilInterface &#123;</div><div class="line">    printName(): <span class="keyword">void</span>;</div><div class="line">&#125;</div><div class="line">interface EraserInterface &#123;</div><div class="line">    printName(): <span class="keyword">void</span>;</div><div class="line">&#125;</div><div class="line">interface StudentInterface &#123;</div><div class="line">    <span class="attr">notebook</span>: NotebookInterface;</div><div class="line">    pencil: PencilInterface;</div><div class="line">    eraser: EraserInterface;</div><div class="line">    write(): <span class="keyword">void</span>;</div><div class="line">    draw(): <span class="keyword">void</span>;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Notebook</span> <span class="title">implements</span> <span class="title">NotebookInterface</span> </span>&#123;</div><div class="line">    public printName() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'this is a notebook'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pencil</span> <span class="title">implements</span> <span class="title">PencilInterface</span> </span>&#123;</div><div class="line">    public printName() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'this is a pencil'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Eraser</span> <span class="title">implements</span> <span class="title">EraserInterface</span> </span>&#123;</div><div class="line">    public printName() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'this is an eraser'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="title">implements</span> <span class="title">StudentInterface</span> </span>&#123;</div><div class="line">    notebook: NotebookInterface;</div><div class="line">    pencil: PencilInterface;</div><div class="line">    eraser: EraserInterface;</div><div class="line">    <span class="keyword">constructor</span>(notebook: NotebookInterface, pencil: PencilInterface, eraser: EraserInterface) &#123;</div><div class="line">        <span class="keyword">this</span>.notebook = notebook;</div><div class="line">        <span class="keyword">this</span>.pencil = pencil;</div><div class="line">        <span class="keyword">this</span>.eraser = eraser;</div><div class="line">    &#125;</div><div class="line">    write() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'writing...'</span>);</div><div class="line">    &#125;</div><div class="line">    draw() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'drawing...'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于使用了inversity框架，这次我们就不用自己实现injector和Inject装饰器啦，只需要从inversify模块中引用相关对象：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Inject &#125; <span class="keyword">from</span> <span class="string">"inversify"</span>;</div><div class="line"> </div><div class="line">@Inject(<span class="string">"NotebookInterface"</span>, <span class="string">"PencilInterface"</span>, <span class="string">"EraserInterface"</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="title">implements</span> <span class="title">StudentInterface</span> </span>&#123;</div><div class="line">    notebook: NotebookInterface;</div><div class="line">    pencil: PencilInterface;</div><div class="line">    eraser: EraserInterface;</div><div class="line">    <span class="keyword">constructor</span>(notebook: NotebookInterface, pencil: PencilInterface, eraser: EraserInterface) &#123;</div><div class="line">        <span class="keyword">this</span>.notebook = notebook;</div><div class="line">        <span class="keyword">this</span>.pencil = pencil;</div><div class="line">        <span class="keyword">this</span>.eraser = eraser;</div><div class="line">    &#125;</div><div class="line">    write() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'writing...'</span>);</div><div class="line">    &#125;</div><div class="line">    draw() &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'drawing...'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样就行了吗？还记得上节中提到TypeScript中各种概念只是语法糖吗？不同于上一节中直接将constructor引用传递给Inject的例子，由于inversify.js是面向接口的，而诸如NotebookInterface、PencilInterface之类的接口只是由TypeScript提供的语法糖，在运行时并不存在，因此我们在装饰器中声明依赖时只能使用字符串形式而非引用形式。不过不用担心，inversify.js为我们提供了bind机制，在接口的字符串形式和具体的构造函数之间搭建了桥梁：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; TypeBinding, Kernel &#125; <span class="keyword">from</span> <span class="string">"inversify"</span>;</div><div class="line"> </div><div class="line"><span class="keyword">var</span> kernel = <span class="keyword">new</span> Kernel();</div><div class="line">kernel.bind(<span class="keyword">new</span> TypeBinding&lt;NotebookInterface&gt;(<span class="string">"NotebookInterface"</span>, Notebook));</div><div class="line">kernel.bind(<span class="keyword">new</span> TypeBinding&lt;PencilInterface&gt;(<span class="string">"PencilInterface"</span>, Pencil));</div><div class="line">kernel.bind(<span class="keyword">new</span> TypeBinding&lt;EraserInterface&gt;(<span class="string">"EraserInterface"</span>, Eraser));</div><div class="line">kernel.bind(<span class="keyword">new</span> TypeBinding&lt;StudentInterface&gt;(<span class="string">"StudentInterface"</span>, Student));</div></pre></td></tr></table></figure></p>
+<p>注意这步需要从inversify模块中引入TypeBinding和Kernel，并且为了保证返回值类型以及整个编译时静态类型检查能够顺利通过，泛型语法也被使用了起来。<br>说到这里，要理解new TypeBinding<notebookinterface>(“NotebookInterface”, Notebook)也就很自然了：为依赖于”NotebookInterface”字符串的类提供Notebook类的实例，返回值向上溯型到NotebookInterface。<br>完成了这些步骤，使用起来也还算顺手：</notebookinterface></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> student: StudentInterface = kernel.resolve&lt;StudentInterface&gt;(<span class="string">"StudentInterface"</span>);</div><div class="line"><span class="built_in">console</span>.log(student <span class="keyword">instanceof</span> Student); <span class="comment">// true</span></div><div class="line">student.notebook.printName(); <span class="comment">// this is a notebook</span></div><div class="line">student.pencil.printName(); <span class="comment">// this is a pencil</span></div><div class="line">student.eraser.printName(); <span class="comment">// this is an eraser</span></div><div class="line">student.draw(); <span class="comment">// drawing</span></div><div class="line">student.write(); <span class="comment">// writing</span></div></pre></td></tr></table></figure>
+<p>最后，顺带提一下ECMAScript中相关提案的现状和进展。Google的AtScript团队曾经有过Annotation的提案，但是AtScript胎死腹中，这个提案自然不了了之了。目前比较有希望成为es7标准的是一个关于装饰器的提案：<a href="https://github.com/wycats/javascript-decorators。感兴趣的同学可以到相关的github页面跟踪了解。尽管DI只是OOP编程众多模式和特性中的一个，但却可以折射出Javascript在OOP上艰难前进的道路。但总得说来，也算得上是路途坦荡，前途光明。回到依赖注入的话题上，一边是翘首以盼的Javascript社区，一边是姗姗来迟的IoC容器，这二者最终能产生怎样的化学反应，让我们拭目以待。" target="_blank" rel="external">https://github.com/wycats/javascript-decorators。感兴趣的同学可以到相关的github页面跟踪了解。尽管DI只是OOP编程众多模式和特性中的一个，但却可以折射出Javascript在OOP上艰难前进的道路。但总得说来，也算得上是路途坦荡，前途光明。回到依赖注入的话题上，一边是翘首以盼的Javascript社区，一边是姗姗来迟的IoC容器，这二者最终能产生怎样的化学反应，让我们拭目以待。</a></p>
+<blockquote>
+<p>作者：ralph_zhu</p>
+<p>时间：2016-02-23 08:00</p>
+<p>原文：<a href="http://www.cnblogs.com/front-end-ralph/p/5208045.html" target="_blank" rel="external">http://www.cnblogs.com/front-end-ralph/p/5208045.html</a></p>
+</blockquote>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="hide pull-left" href="/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/05/03/记一次面试算法题目/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/categories/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tags/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'forsigner';
+    
+    var disqus_url = 'http://yoursite.com/2017/05/05/JavaScript中的依赖注入/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//forsigner.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

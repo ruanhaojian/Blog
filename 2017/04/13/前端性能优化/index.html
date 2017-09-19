@@ -19,16 +19,16 @@
 <meta name="keywords" content="web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="前端性能优化">
-<meta property="og:url" content="http://yoursite.com/2017/04/13/前端性能优化/index.html">
+<meta property="og:url" content="http://ruanhaojian.github.com/2017/04/13/前端性能优化/index.html">
 <meta property="og:site_name" content="RuAn">
 <meta property="og:description" content="前端性能优化笔记">
-<meta property="og:image" content="http://yoursite.com/2017/04/13/前端性能优化/R1.GIF">
-<meta property="og:image" content="http://yoursite.com/2017/04/13/前端性能优化/R2.GIF">
+<meta property="og:image" content="http://ruanhaojian.github.com/2017/04/13/前端性能优化/R1.GIF">
+<meta property="og:image" content="http://ruanhaojian.github.com/2017/04/13/前端性能优化/R2.GIF">
 <meta property="og:updated_time" content="2017-04-28T08:27:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端性能优化">
 <meta name="twitter:description" content="前端性能优化笔记">
-<meta name="twitter:image" content="http://yoursite.com/2017/04/13/前端性能优化/R1.GIF">
+<meta name="twitter:image" content="http://ruanhaojian.github.com/2017/04/13/前端性能优化/R1.GIF">
 
   
 
@@ -164,7 +164,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#性能优化核心关注点"><span class="toc-text">性能优化核心关注点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#图片优化"><span class="toc-text">图片优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS代替图片"><span class="toc-text">CSS代替图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用矢量图替代位图"><span class="toc-text">使用矢量图替代位图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用data-url"><span class="toc-text">使用data url</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#按照HTTP协议设置合理的缓存"><span class="toc-text">按照HTTP协议设置合理的缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源的lazyload或postpone"><span class="toc-text">资源的lazyload或postpone</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源的prefetch"><span class="toc-text">资源的prefetch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#responsive设计"><span class="toc-text">responsive设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用恰当的图片格式"><span class="toc-text">使用恰当的图片格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用“渐进”图片或“交错”图片"><span class="toc-text">使用“渐进”图片或“交错”图片</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CSS优化"><span class="toc-text">CSS优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-优化主要是四个方面："><span class="toc-text">CSS 优化主要是四个方面：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Css-Lint提到的规则"><span class="toc-text">Css Lint提到的规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS方法论"><span class="toc-text">CSS方法论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#总结的写CSS代码的一些关键点。"><span class="toc-text">总结的写CSS代码的一些关键点。　　</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JS优化"><span class="toc-text">JS优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#针对DOM问题，Javascript的应对方案"><span class="toc-text">针对DOM问题，Javascript的应对方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#前端综合"><span class="toc-text">前端综合</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用tree-shaking以及code-splitting机制来减轻负载-Use-tree-shaking-and-code-splitting-to-reduce-payloads"><span class="toc-text">使用tree-shaking以及code-splitting机制来减轻负载(Use tree-shaking and code-splitting to reduce payloads)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化网络环境能够加快网络传输的速度-Warm-up-the-connection-to-speed-up-delivery"><span class="toc-text">优化网络环境能够加快网络传输的速度(Warm up the connection to speed up delivery)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用service-worker来处理缓存问题或者将service-worker作为网络-出现问题时-的应急方案，合适吗？-Are-service-workers-used-for-caching-and-network-fallbacks"><span class="toc-text">用service worker来处理缓存问题或者将service worker作为网络(出现问题时)的应急方案，合适吗？(Are service workers used for caching and network fallbacks?)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5的离线储存怎么使用，工作原理能不能解释一下？"><span class="toc-text">HTML5的离线储存怎么使用，工作原理能不能解释一下？</span></a></li></ol></li></ol>
   </div>
 
@@ -363,7 +363,7 @@ FALLBACK:
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -444,7 +444,7 @@ FALLBACK:
   <script>
     var disqus_shortname = 'forsigner';
     
-    var disqus_url = 'http://yoursite.com/2017/04/13/前端性能优化/';
+    var disqus_url = 'http://ruanhaojian.github.com/2017/04/13/前端性能优化/';
     
     (function(){
       var dsq = document.createElement('script');

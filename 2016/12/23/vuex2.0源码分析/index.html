@@ -19,7 +19,7 @@
 <meta name="keywords" content="vue,vuex">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【转】vuex2.0源码分析">
-<meta property="og:url" content="http://yoursite.com/2016/12/23/vuex2.0源码分析/index.html">
+<meta property="og:url" content="http://ruanhaojian.github.com/2016/12/23/vuex2.0源码分析/index.html">
 <meta property="og:site_name" content="RuAn">
 <meta property="og:description" content="原文：https://github.com/DDFE/vue-blog/issues/8  当我们用 Vue.js 开发一个中到大型的单页应用时，经常会遇到如下问题：  如何让多个 Vue 组件共享状态 Vue 组件间如何通讯  通常，在项目不是很复杂的时候，我们会利用全局事件总线 （global event bus）解决，但是随着复杂度的提升，这些代码将变的难以维护。因此，我们需要一种更加好用">
 <meta property="og:image" content="https://camo.githubusercontent.com/2bd2ed9ea9f74792db15c5980666275330ab64a2/687474703a2f2f7374617469632e67616c696c656f2e7869616f6a756b656a692e636f6d2f7374617469632f746d732f736869656c642f767565782d746573742e706e67">
@@ -163,7 +163,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#目录结构"><span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#源码分析"><span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#从入口开始"><span class="toc-text">从入口开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#认识-Store-构造函数"><span class="toc-text">认识 Store 构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex-的初始化核心"><span class="toc-text">Vuex 的初始化核心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#installModule"><span class="toc-text">installModule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerMutation"><span class="toc-text">registerMutation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerAction"><span class="toc-text">registerAction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wrapGetters"><span class="toc-text">wrapGetters</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex-API-分析"><span class="toc-text">Vuex API 分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#watch-getter-cb-options"><span class="toc-text">watch(getter, cb, options)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#registerModule-path-module"><span class="toc-text">registerModule(path, module)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unregisterModule-path"><span class="toc-text">unregisterModule(path)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hotUpdate-newOptions"><span class="toc-text">hotUpdate(newOptions)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#replaceState"><span class="toc-text">replaceState</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapState"><span class="toc-text">mapState</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapGetters"><span class="toc-text">mapGetters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapActions"><span class="toc-text">mapActions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapMutations"><span class="toc-text">mapMutations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#devtoolPlugin"><span class="toc-text">devtoolPlugin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loggerPlugin"><span class="toc-text">loggerPlugin</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
@@ -463,7 +463,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -544,7 +544,7 @@
   <script>
     var disqus_shortname = 'forsigner';
     
-    var disqus_url = 'http://yoursite.com/2016/12/23/vuex2.0源码分析/';
+    var disqus_url = 'http://ruanhaojian.github.com/2016/12/23/vuex2.0源码分析/';
     
     (function(){
       var dsq = document.createElement('script');

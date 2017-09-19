@@ -19,15 +19,15 @@
 <meta name="keywords" content="javascript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="细数Javascript技术栈中的四种依赖注入">
-<meta property="og:url" content="http://yoursite.com/2017/05/05/JavaScript中的依赖注入/index.html">
+<meta property="og:url" content="http://ruanhaojian.github.com/2017/05/05/JavaScript中的依赖注入/index.html">
 <meta property="og:site_name" content="RuAn">
 <meta property="og:description" content="作为面向对象编程中实现控制反转（Inversion of Control，下文称IoC）最常见的技术手段之一，依赖注入（Dependency Injection，下文称DI）可谓在OOP编程中大行其道经久不衰。比如在J2EE中，就有大名鼎鼎的执牛耳者Spring。Javascript社区中自然也不乏一些积极的尝试，广为人知的AngularJS很大程度上就是基于DI实现的。遗憾的是，作为一款缺少反射">
-<meta property="og:image" content="http://yoursite.com/2017/05/05/JavaScript中的依赖注入/1.png">
-<meta property="og:updated_time" content="2017-05-05T03:28:01.000Z">
+<meta property="og:image" content="http://ruanhaojian.github.com/2017/05/05/JavaScript中的依赖注入/1.png">
+<meta property="og:updated_time" content="2017-09-17T03:38:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="细数Javascript技术栈中的四种依赖注入">
 <meta name="twitter:description" content="作为面向对象编程中实现控制反转（Inversion of Control，下文称IoC）最常见的技术手段之一，依赖注入（Dependency Injection，下文称DI）可谓在OOP编程中大行其道经久不衰。比如在J2EE中，就有大名鼎鼎的执牛耳者Spring。Javascript社区中自然也不乏一些积极的尝试，广为人知的AngularJS很大程度上就是基于DI实现的。遗憾的是，作为一款缺少反射">
-<meta name="twitter:image" content="http://yoursite.com/2017/05/05/JavaScript中的依赖注入/1.png">
+<meta name="twitter:image" content="http://ruanhaojian.github.com/2017/05/05/JavaScript中的依赖注入/1.png">
 
   
 
@@ -163,7 +163,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-基于Injector、Cache和函数参数名的依赖注入"><span class="toc-text">一. 基于Injector、Cache和函数参数名的依赖注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三-TypeScript中基于装饰器和反射的依赖注入"><span class="toc-text">三. TypeScript中基于装饰器和反射的依赖注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四-inversify-js——Javascript技术栈中的IoC容器"><span class="toc-text">四. inversify.js——Javascript技术栈中的IoC容器</span></a></li></ol>
   </div>
 
@@ -251,7 +251,7 @@
 <p>这样就行了吗？还记得上节中提到TypeScript中各种概念只是语法糖吗？不同于上一节中直接将constructor引用传递给Inject的例子，由于inversify.js是面向接口的，而诸如NotebookInterface、PencilInterface之类的接口只是由TypeScript提供的语法糖，在运行时并不存在，因此我们在装饰器中声明依赖时只能使用字符串形式而非引用形式。不过不用担心，inversify.js为我们提供了bind机制，在接口的字符串形式和具体的构造函数之间搭建了桥梁：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; TypeBinding, Kernel &#125; <span class="keyword">from</span> <span class="string">"inversify"</span>;</div><div class="line"> </div><div class="line"><span class="keyword">var</span> kernel = <span class="keyword">new</span> Kernel();</div><div class="line">kernel.bind(<span class="keyword">new</span> TypeBinding&lt;NotebookInterface&gt;(<span class="string">"NotebookInterface"</span>, Notebook));</div><div class="line">kernel.bind(<span class="keyword">new</span> TypeBinding&lt;PencilInterface&gt;(<span class="string">"PencilInterface"</span>, Pencil));</div><div class="line">kernel.bind(<span class="keyword">new</span> TypeBinding&lt;EraserInterface&gt;(<span class="string">"EraserInterface"</span>, Eraser));</div><div class="line">kernel.bind(<span class="keyword">new</span> TypeBinding&lt;StudentInterface&gt;(<span class="string">"StudentInterface"</span>, Student));</div></pre></td></tr></table></figure></p>
 <p>注意这步需要从inversify模块中引入TypeBinding和Kernel，并且为了保证返回值类型以及整个编译时静态类型检查能够顺利通过，泛型语法也被使用了起来。<br>说到这里，要理解new TypeBinding<notebookinterface>(“NotebookInterface”, Notebook)也就很自然了：为依赖于”NotebookInterface”字符串的类提供Notebook类的实例，返回值向上溯型到NotebookInterface。<br>完成了这些步骤，使用起来也还算顺手：</notebookinterface></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> student: StudentInterface = kernel.resolve&lt;StudentInterface&gt;(<span class="string">"StudentInterface"</span>);</div><div class="line"><span class="built_in">console</span>.log(student <span class="keyword">instanceof</span> Student); <span class="comment">// true</span></div><div class="line">student.notebook.printName(); <span class="comment">// this is a notebook</span></div><div class="line">student.pencil.printName(); <span class="comment">// this is a pencil</span></div><div class="line">student.eraser.printName(); <span class="comment">// this is an eraser</span></div><div class="line">student.draw(); <span class="comment">// drawing</span></div><div class="line">student.write(); <span class="comment">// writing</span></div></pre></td></tr></table></figure>
-<p>最后，顺带提一下ECMAScript中相关提案的现状和进展。Google的AtScript团队曾经有过Annotation的提案，但是AtScript胎死腹中，这个提案自然不了了之了。目前比较有希望成为es7标准的是一个关于装饰器的提案：<a href="https://github.com/wycats/javascript-decorators。感兴趣的同学可以到相关的github页面跟踪了解。尽管DI只是OOP编程众多模式和特性中的一个，但却可以折射出Javascript在OOP上艰难前进的道路。但总得说来，也算得上是路途坦荡，前途光明。回到依赖注入的话题上，一边是翘首以盼的Javascript社区，一边是姗姗来迟的IoC容器，这二者最终能产生怎样的化学反应，让我们拭目以待。" target="_blank" rel="external">https://github.com/wycats/javascript-decorators。感兴趣的同学可以到相关的github页面跟踪了解。尽管DI只是OOP编程众多模式和特性中的一个，但却可以折射出Javascript在OOP上艰难前进的道路。但总得说来，也算得上是路途坦荡，前途光明。回到依赖注入的话题上，一边是翘首以盼的Javascript社区，一边是姗姗来迟的IoC容器，这二者最终能产生怎样的化学反应，让我们拭目以待。</a></p>
+<p>最后，顺带提一下ECMAScript中相关提案的现状和进展。Google的AtScript团队曾经有过Annotation的提案，但是AtScript胎死腹中，这个提案自然不了了之了。目前比较有希望成为es7标准的是一个关于装饰器的提案：<a href="https://github.com/wycats/javascript-decorators" target="_blank" rel="external">https://github.com/wycats/javascript-decorators</a>。感兴趣的同学可以到相关的github页面跟踪了解。尽管DI只是OOP编程众多模式和特性中的一个，但却可以折射出Javascript在OOP上艰难前进的道路。但总得说来，也算得上是路途坦荡，前途光明。回到依赖注入的话题上，一边是翘首以盼的Javascript社区，一边是姗姗来迟的IoC容器，这二者最终能产生怎样的化学反应，让我们拭目以待。</p>
 <blockquote>
 <p>作者：ralph_zhu</p>
 <p>时间：2016-02-23 08:00</p>
@@ -292,7 +292,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -373,7 +373,7 @@
   <script>
     var disqus_shortname = 'forsigner';
     
-    var disqus_url = 'http://yoursite.com/2017/05/05/JavaScript中的依赖注入/';
+    var disqus_url = 'http://ruanhaojian.github.com/2017/05/05/JavaScript中的依赖注入/';
     
     (function(){
       var dsq = document.createElement('script');
